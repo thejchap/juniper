@@ -21,6 +21,7 @@ module.exports = function(environment) {
       TEMPO: 164.0,
       BULB_VARIANTS: 3,
       STEMS_BASE_URL: CDN + '/bulbs/audio',
+      DEFAULT_VOLUME: 0.75,
       STEM_FIXTURES: JSON.parse(fs.readFileSync(__dirname + '/stems.json', 'utf8'))
     }
   };

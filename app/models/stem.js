@@ -18,6 +18,10 @@ const Stem = DS.Model.extend({
 
   audioBuffer: null,
 
+  defaultVolume: ENV.APP.DEFAULT_VOLUME,
+
+  volume: null,
+
   gainNode: null,
 
   on: false,
@@ -29,7 +33,7 @@ const Stem = DS.Model.extend({
   }),
 
   toggleMute: observer('on', function() {
-    this.set('gainNode.gain.value', this.get('on') ? 1 : 0);
+    this.set('gainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
   }),
 
   bulbVariant: computed('id', function() {
@@ -67,7 +71,7 @@ const Stem = DS.Model.extend({
 
   _initGainNode() {
     const gainNode = this.get('audioContext').createGain();
-    gainNode.gain.value = this.get('on') ? 1 : 0;
+    gainNode.gain.value = this.get('on') ? this.get('defaultVolume') : 0;
     this.set('gainNode', gainNode);
   },
 
