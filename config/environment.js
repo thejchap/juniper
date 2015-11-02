@@ -1,6 +1,7 @@
 /* jshint node: true */
 
 var fs = require('fs');
+var CDN = '//sprh.s3.amazonaws.com';
 
 module.exports = function(environment) {
   var ENV = {
@@ -16,7 +17,11 @@ module.exports = function(environment) {
     },
 
     APP: {
-      CDN_URL: '//sprh.s3.amazonaws.com/bulbs',
+      CDN_URL: CDN + '/bulbs',
+      MEDIA_GROUP: 'stems',
+      TEMPO: 164.0,
+      BULB_VARIANTS: 3,
+      STEMS_BASE_URL: CDN + '/bulbs/audio',
       STEM_FIXTURES: JSON.parse(fs.readFileSync(__dirname + '/stems.json', 'utf8'))
     }
   };
@@ -52,7 +57,8 @@ module.exports = function(environment) {
     'connect-src': "'self'",
     'img-src': "'self' sprh.s3.amazonaws.com",
     'style-src': "'self' 'unsafe-inline'",
-    'media-src': "'self'"
+    'child-src': "'self' 'unsafe-inline'",
+    'media-src': "'self' sprh.s3.amazonaws.com"
   }
 
   return ENV;

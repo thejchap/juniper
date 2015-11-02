@@ -1,71 +1,8 @@
+@import 'animations';
+@import 'sprh-bulb';
+
 body {
   background: #000;
   color: white;
   transform: translate3d(0,0,0);
-}
-
-.sprh-bulb {
-  display: inline-block;
-  height: 100px;
-  width: 100px;
-  overflow: hidden;
-  position: relative;
-  padding: 60px;
-  transition: opacity 0.2s;
-
-  &.off {
-    .bulb-img-on { opacity: 0 }
-    .bulb-img-off { opacity: 1 }
-  }
-
-  &.on {
-    .bulb-img-on { opacity: 1 }
-    .bulb-img-off { opacity: 0 }
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:nth-child(1n+0) { img { animation: 2s ease 1s normal none infinite swing1; } }
-  &:nth-child(2n+0) { img { animation: 2s ease 1s normal none infinite swing2; } }
-  &:nth-child(3n+0) { img { animation: 2s ease 1s normal none infinite swing3; } }
-  &:nth-child(4n+0) { img { animation: 2s ease 1s normal none infinite swing4; } }
-  &:nth-child(5n+0) { img { animation: 2s ease 1s normal none infinite swing5; } }
-
-  img {
-    position: absolute;
-    bottom: 0;
-    transform-origin: center top;
-  }
-}
-
-@keyframes swing1 {
-  0% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-  100%{ transform: rotate(5deg); }
-}
-
-@keyframes swing2 {
-  0% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
-  100%{ transform: rotate(-3deg); }
-}
-
-@keyframes swing3 {
-  0% { transform: rotate(3deg); }
-  50% { transform: rotate(-3deg); }
-  100%{ transform: rotate(3deg); }
-}
-
-@keyframes swing4 {
-  0% { transform: rotate(6deg); }
-  50% { transform: rotate(-6deg); }
-  100%{ transform: rotate(6deg); }
-}
-
-@keyframes swing5 {
-  0% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
-  100%{ transform: rotate(-4deg); }
 }

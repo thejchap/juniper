@@ -1,0 +1,77 @@
+.sprh-bulb {
+  display: inline-block;
+  height: 50px;
+  width: 70px;
+  overflow: hidden;
+  position: relative;
+  padding: 60px;
+  opacity: 0.8;
+  transform: translate3d(0,0,0);
+
+  img {
+    transition: opacity 0.2s;
+  }
+
+  &.off {
+    .bulb-img-on { opacity: 0 }
+    .bulb-img-off { opacity: 1 }
+  }
+
+  &.on {
+    .bulb-img-on { opacity: 1 }
+    .bulb-img-off { opacity: 0 }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    transform-origin: center top;
+  }
+
+  &:nth-child(1n+0) {
+    img {
+      bottom: 30px;
+      left: 20px;
+      animation: 5s ease-in-out infinite swing1;
+    }
+  }
+
+  &:nth-child(2n+0) {
+    img {
+      bottom: -20px;
+      left: -10px;
+      animation: 6s ease-in-out infinite swing2;
+    }
+  }
+
+  &:nth-child(3n+0) {
+    img {
+      animation: 4.5s ease-in-out infinite swing3;
+    }
+  }
+
+  &:nth-child(4n+0) {
+    img {
+      bottom: 20px;
+      right: -10px;
+      animation: 4s ease-in-out infinite swing4;
+    }
+  }
+
+  &:nth-child(5n+0) {
+    img {
+      animation: 4.5s ease-in-out infinite swing5;
+    }
+  }
+
+  &:nth-child(6n+0) {
+    img {
+      animation: 5.5s ease-in-out infinite swing5;
+    }
+  }
+}
