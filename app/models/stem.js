@@ -7,9 +7,18 @@ const { attr } = DS;
 const Stem = DS.Model.extend({
   fileName: attr(),
 
+  init() {
+    this._loadAudio();
+    this._initGainNode();
+  },
+
   audioUrl: computed('fileName', function() {
     return `${ENV.APP.STEMS_BASE_URL}/${this.get('fileName')}`;
   }),
+
+  audioBuffer: null,
+
+  gainNode: null,
 
   on: false,
 
@@ -19,15 +28,8 @@ const Stem = DS.Model.extend({
     return Math.floor(Math.random() * 80) + 40;
   }),
 
-  init() {
-    const audio = new Audio();
-    audio.mediaGroup = ENV.APP.MEDIA_GROUP;
-    audio.muted = true;
-    this.set('audio', audio);
-  },
-
   toggleMute: observer('on', function() {
-    this.get('audio').muted = !this.get('on');
+    this.set('gainNode.gain.value', this.get('on') ? 1 : 0);
   }),
 
   bulbVariant: computed('id', function() {
@@ -46,6 +48,44 @@ const Stem = DS.Model.extend({
 
   _makeBulbUrl(state) {
     return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.jpg`;
+  },
+
+  _loadAudio() {
+    const ctx = this.get('audioContext');
+    let req = new XMLHttpRequest();
+    req.open('GET', this.get('audioUrl'), true);
+    req.responseType = 'arraybuffer';
+
+    req.onload = () => {
+      ctx.decodeAudioData(req.response, (buffer) => {
+        this.set('audioBuffer', buffer);
+      });
+    };
+
+    req.send();
+  },
+
+  _initGainNode() {
+    const gainNode = this.get('audioContext').createGain();
+    gainNode.gain.value = this.get('on') ? 1 : 0;
+    this.set('gainNode', gainNode);
+  },
+
+  play(start, stop) {
+    if (!this.get('audioBuffer')) {
+      return false;
+    }
+
+    const buffer = this.get('audioBuffer');
+    const ctx = this.get('audioContext');
+    const src = ctx.createBufferSource();
+    const gainNode = this.get('gainNode');
+
+    src.buffer = buffer;
+    src.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    src.start(start);
+    src.stop(stop);
   }
 });
 

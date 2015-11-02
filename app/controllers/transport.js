@@ -7,6 +7,8 @@ export default Ember.Controller.extend({
 
   lookahead: 25.0,
 
+  audioContext: Ember.inject.service(),
+
   scheduleAheadTime: 0.1,
 
   nextNoteTime: 0.0,
@@ -29,7 +31,6 @@ export default Ember.Controller.extend({
 
   init() {
     this.set('worker', this._makeWorker());
-    this.set('audioContext', new AudioContext());
   },
 
   _scheduleNote(beatNumber, time) {
@@ -39,7 +40,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    console.log('bar');
+    this.get('stems').invoke('play', time, time + (this.get('secondsPerBeat') * 18));
   },
 
   _nextNote() {

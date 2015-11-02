@@ -1,6 +1,7 @@
 {
   "predef": [
     "document",
+    "AudioContext",
     "window",
     "-Promise"
   ],

@@ -18,7 +18,6 @@ module.exports = function(environment) {
 
     APP: {
       CDN_URL: CDN + '/bulbs',
-      MEDIA_GROUP: 'stems',
       TEMPO: 164.0,
       BULB_VARIANTS: 3,
       STEMS_BASE_URL: CDN + '/bulbs/audio',
@@ -54,7 +53,7 @@ module.exports = function(environment) {
     'default-src': "'none'",
     'script-src': "'self'",
     'font-src': "'self'",
-    'connect-src': "'self'",
+    'connect-src': "'self' sprh.s3.amazonaws.com",
     'img-src': "'self' sprh.s3.amazonaws.com",
     'style-src': "'self' 'unsafe-inline'",
     'child-src': "'self' 'unsafe-inline'",
