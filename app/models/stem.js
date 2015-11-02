@@ -1,15 +1,15 @@
 import DS from 'ember-data';
 import ENV from 'sprh-bulbs/config/environment';
 import Ember from 'ember';
-const { computed, observer } = Ember;
+const { computed, observer, run } = Ember;
 const { attr } = DS;
 
 const Stem = DS.Model.extend({
   fileName: attr(),
 
   init() {
-    this._loadAudio();
     this._initGainNode();
+    run.next(() => this._loadAudio());
   },
 
   audioUrl: computed('fileName', function() {

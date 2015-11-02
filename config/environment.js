@@ -8,7 +8,7 @@ module.exports = function(environment) {
     modulePrefix: 'sprh-bulbs',
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -53,10 +53,10 @@ module.exports = function(environment) {
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
     'script-src': "'self'",
-    'font-src': "'self'",
+    'font-src': "'self' code.ionicframework.com",
     'connect-src': "'self' sprh.s3.amazonaws.com",
     'img-src': "'self' sprh.s3.amazonaws.com",
-    'style-src': "'self' 'unsafe-inline'",
+    'style-src': "'self' 'unsafe-inline' code.ionicframework.com",
     'child-src': "'self' 'unsafe-inline'",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }

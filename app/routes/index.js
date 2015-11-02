@@ -2,10 +2,12 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model(params) {
-    const bin = parseInt(params.mixHex, 16)
+    let bin = parseInt(params.mixHex, 16)
       .toString(2)
       .split('')
       .map((i) => parseInt(i, 10));
+
+    bin.shift();
 
     return this.store.findAll('stem').then((stems) => {
       const indices = bin.map((on, i) => on ? i : null).compact();
@@ -27,10 +29,11 @@ export default Ember.Route.extend({
     toggleStem(stem) {
       stem.toggleProperty('on');
 
-      const binary = this.get('currentModel').map((stem) => {
+      let binary = this.get('currentModel').map((stem) => {
         return stem.get('on') ? 1 : 0;
       }).join('');
 
+      binary = 1 + binary;
       const mixHex = parseInt(binary, 2).toString(16);
       this.transitionTo({ queryParams: { mixHex } });
     }

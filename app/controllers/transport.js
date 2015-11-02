@@ -7,8 +7,6 @@ export default Ember.Controller.extend({
 
   lookahead: 25.0,
 
-  audioContext: Ember.inject.service(),
-
   scheduleAheadTime: 0.1,
 
   nextNoteTime: 0.0,
@@ -34,8 +32,6 @@ export default Ember.Controller.extend({
   },
 
   _scheduleNote(beatNumber, time) {
-    const ctx = this.get('audioContext');
-
     if (this.get('currentBar') !== 0 || beatNumber !== 0) {
       return;
     }
