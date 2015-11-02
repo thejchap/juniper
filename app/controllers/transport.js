@@ -36,7 +36,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    this.get('stems').invoke('play', time, time + (this.get('secondsPerBeat') * 18));
+    this.get('stems').invoke('play', time, time + (this.get('secondsPerBeat') * 16));
   },
 
   _nextNote() {

@@ -1,0 +1,158 @@
+html,
+body,
+.container,
+.content-wrap {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-wrap a {
+  height: 25px;
+  text-decoration: none;
+  color: white;
+}
+
+.menu-wrap a:hover,
+.menu-wrap a:focus {
+  color: white;
+}
+
+.content-wrap {
+  -webkit-overflow-scrolling: touch;
+  transition: transform 0.4s;
+  transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+}
+
+.content {
+  position: relative;
+  overflow-y: scroll;
+  padding-top: 90px;
+  padding-bottom: 12em;
+}
+
+/* Common styles for menu button and menu-wrap */
+.menu-button,
+.menu-wrap {
+  position: fixed;
+  width: 2.5em;
+  height: 2.25em;
+  font-size: 1.5em;
+  border-radius: 1.175em;
+  transform: translate3d(1.3em,1.3em,0);
+}
+
+/* Menu */
+.menu-wrap {
+  z-index: 999;
+}
+
+.menu {
+  background: transparent;
+  height: 100%;
+  overflow: hidden;
+  font-size: 0.75em;
+}
+
+.is-sharing .icon-list {
+  float: right;
+  padding: 2.5em 6em 0 2em;
+}
+
+.is-mixing .icon-list {
+  float: left;
+  padding: 2.5em 2em 0 6em;
+}
+
+.icon-list a {
+  opacity: 0;
+  display: inline-block;
+  padding: 0 0.2em;
+  margin: 0 15px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.icon-list a span {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.5em;
+  font-weight: 700;
+  padding-top: 0.5em;
+}
+
+.show-menu .content-wrap {
+  transition-delay: 0s;
+}
+
+.show-menu.is-sharing {
+  #settings-btn {
+    transform: translate3d(0,125px,0);
+  }
+}
+.show-menu.is-mixing {
+  #share-btn {
+    transform: translate3d(0,125px,0);
+  }
+}
+
+.show-menu .menu-wrap {
+  width: 100%;
+  height: 125px;
+  transform: translate3d(0,0,0);
+  transition-delay: 0s;
+}
+
+.show-menu .icon-list a {
+  opacity: 1;
+  transition: opacity 0.2s 0.2s;
+}
+
+.is-sharing .mixing-list {
+  display: none;
+}
+
+.is-mixing .share-list {
+  display: none;
+}
+
+.is-mixing .icon-list a:nth-child(2) {
+  transition-delay: 0.22s;
+}
+
+.is-mixing .icon-list a:nth-child(3) {
+  transition-delay: 0.24s;
+}
+
+.is-mixing .icon-list a:nth-child(4) {
+  transition-delay: 0.26s;
+}
+
+.is-mixing .icon-list a:nth-child(5) {
+  transition-delay: 0.28s;
+}
+
+.is-mixing .icon-list a:nth-child(6) {
+  transition-delay: 0.3s;
+}
+
+.is-sharing .icon-list a:nth-child(5) {
+  transition-delay: 0.22s;
+}
+
+.is-sharing .icon-list a:nth-child(4) {
+  transition-delay: 0.24s;
+}
+
+.is-sharing .icon-list a:nth-child(3) {
+  transition-delay: 0.26s;
+}
+
+.is-sharing .icon-list a:nth-child(2) {
+  transition-delay: 0.28s;
+}
+
+.is-sharing .icon-list a:nth-child(1) {
+  transition-delay: 0.3s;
+}

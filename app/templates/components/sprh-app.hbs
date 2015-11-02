@@ -1,0 +1,30 @@
+<div class="menu-wrap">
+  <div class="menu">
+    <div class="icon-list share-list">
+      <a href="#"><i class="ion-email"></i></a>
+      <a href="#"><i class="ion-social-facebook"></i></a>
+      <a href="#"><i class="ion-social-twitter"></i></a>
+      <a href="#"><i class="ion-social-pinterest"></i></a>
+    </div>
+    <div class="icon-list mixing-list">
+      <a href="#"><i class="ion-pause"></i></a>
+      <a href="#"><i class="ion-refresh"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<nav>
+  <a href="#" id='share-btn' class='btn' {{action 'toggleSharing'}}>
+    <i class='ion-android-share-alt'></i>
+  </a>
+  <a href="#" id='settings-btn' class='btn' {{action 'toggleMixing'}}>
+    <i class='ion-ios-settings-strong'></i>
+  </a>
+</nav>
+
+<div class="content-wrap">
+  <div class="content">
+    {{yield}}
+  </div>
+</div>

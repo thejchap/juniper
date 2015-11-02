@@ -56,7 +56,7 @@ module.exports = function(environment) {
     'font-src': "'self' code.ionicframework.com",
     'connect-src': "'self' sprh.s3.amazonaws.com",
     'img-src': "'self' sprh.s3.amazonaws.com",
-    'style-src': "'self' 'unsafe-inline' code.ionicframework.com",
+    'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com",
     'child-src': "'self' 'unsafe-inline'",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }
