@@ -36,7 +36,7 @@ export default Ember.Controller.extend({
       return;
     }
 
-    this.get('stems').invoke('play', time, time + (this.get('secondsPerBeat') * 16));
+    this.get('stems').invoke('play', time, time + (this.get('secondsPerBeat') * 64));
   },
 
   _nextNote() {
@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
       this.incrementProperty('currentBar');
     }
 
-    if (this.get('currentBar') === 4) {
+    if (this.get('currentBar') === 16) {
       this.set('currentBar', 0);
     }
   },
