@@ -1,10 +1,10 @@
 import Ember from 'ember';
-const { run } = Ember;
+const { run, on } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['sprh-bulb', 'item'],
 
-  classNameBindings: ['stem.on:on:off', 'isHovered'],
+  classNameBindings: ['stem.on:on:off', 'isHovered', 'isGridLayoutComplete'],
 
   showModal: 'showModal',
 
@@ -13,6 +13,14 @@ export default Ember.Component.extend({
   stem: null,
 
   action: 'toggleStem',
+
+  isGridLayoutComplete: false,
+
+  listenForLayoutCompletion: on('didInsertElement', function() {
+    run.next(() => this.$().parent().one('layoutComplete', () => {
+      this.set('isGridLayoutComplete', true);
+    }));
+  }),
 
   mouseLeave() {
     if (Ember.$('body').hasClass('modal-open')) {
@@ -24,9 +32,11 @@ export default Ember.Component.extend({
 
   mouseEnter() {
     run.later(() => {
-      if (this.$().is(':hover')) {
-        this.set('isHovered', true);
+      if (!this.$().is(':hover')) {
+        return;
       }
+
+      this.set('isHovered', true);
     }, 500);
   },
 

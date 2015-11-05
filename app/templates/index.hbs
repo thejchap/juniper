@@ -1,5 +1,8 @@
-{{#masonry-grid}}
-  {{#each model as |stem i|}}
-    {{sprh-bulb stem=stem}}
-  {{/each}}
-{{/masonry-grid}}
+<div class="container-fluid">
+  {{#masonry-grid columnWidth='.grid-sizer'}}
+    <div class="grid-sizer"></div>
+    {{#each model as |stem|}}
+      {{sprh-bulb stem=stem}}
+    {{/each}}
+  {{/masonry-grid}}
+</div>

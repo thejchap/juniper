@@ -1,5 +1,7 @@
-<img src="{{stem.offBulbUrl}}" width='{{stem.width}}' class='bulb-img-off' />
-<img src="{{stem.onBulbUrl}}" width='{{stem.width}}' class='bulb-img-on'/>
+<div class="bulb-img-wrapper">
+  <img src="{{stem.offBulbUrl}}" width='{{stem.width}}' class='bulb-img-off' />
+  <img src="{{stem.onBulbUrl}}" width='{{stem.width}}' class='bulb-img-on'/>
+</div>
 
 <div class="bulb-controls">
   <a href="#" class='bulb-control filter' {{action 'showFilterModal' bubbles=false}}>

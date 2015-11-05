@@ -10,7 +10,7 @@
 @navbar-height: 90px;
 @modal-content-bg: transparent;
 @modal-content-border-color: transparent;
-@modal-backdrop-opacity: 0.65;
+@modal-backdrop-opacity: 0.75;
 
 @import 'animations';
 @import 'sprh-bulb';
@@ -19,9 +19,12 @@ body {
   padding-top: @navbar-height;
 }
 
-.modal, .modal-dialog, .modal-header, .modal-footer {
+.modal, .modal-dialog, .modal-header, .modal-footer, .modal-content {
   border: none;
+  box-shadow: none;
+}
 
+.modal {
   h4 {
     font-size: 42px;
     color: @brand-primary;
