@@ -1,1 +1,5 @@
-{{sprh-bulbs stems=model}}
+{{#masonry-grid}}
+  {{#each model as |stem i|}}
+    {{sprh-bulb stem=stem}}
+  {{/each}}
+{{/masonry-grid}}

@@ -1,3 +1,25 @@
-{{#sprh-app}}
-  {{outlet}}
-{{/sprh-app}}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="#">
+          <div class="circle">
+            <i class='ion-ios-settings-strong'></i>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav pull-right">
+      <li>
+        <a href="#">
+          <div class="circle">
+            <i class='ion-android-share-alt'></i>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+{{outlet}}
+{{outlet 'modal'}}

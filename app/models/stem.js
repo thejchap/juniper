@@ -22,6 +22,8 @@ const Stem = DS.Model.extend({
 
   volume: null,
 
+  isReversed: false,
+
   gainNode: null,
 
   on: false,
@@ -51,7 +53,7 @@ const Stem = DS.Model.extend({
   }),
 
   _makeBulbUrl(state) {
-    return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.jpg`;
+    return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
   },
 
   _loadAudio() {

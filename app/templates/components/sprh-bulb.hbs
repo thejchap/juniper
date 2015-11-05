@@ -1,2 +1,20 @@
 <img src="{{stem.offBulbUrl}}" width='{{stem.width}}' class='bulb-img-off' />
 <img src="{{stem.onBulbUrl}}" width='{{stem.width}}' class='bulb-img-on'/>
+
+<div class="bulb-controls">
+  <a href="#" class='bulb-control filter' {{action 'showFilterModal' bubbles=false}}>
+    <i class='ion-erlenmeyer-flask'></i>
+  </a>
+  <a href="#" class='bulb-control distortion' {{action 'showDistortionModal' bubbles=false}}>
+    <i class='ion-nuclear'></i>
+  </a>
+  <a href="#" class='bulb-control volume' {{action 'showVolumeModal' bubbles=false}}>
+    <i class='ion-volume-medium'></i>
+  </a>
+  <a href="#" class='bulb-control reverse {{if stem.isReversed "active"}}' {{action 'toggleReverse' bubbles=false}}>
+    <i class='ion-ios-rewind'></i>
+  </a>
+  <a href="#" class='bulb-control mute {{if stem.on "active"}}' {{action 'toggleMute' bubbles=false}}>
+    <i class='ion-power'></i>
+  </a>
+</div>

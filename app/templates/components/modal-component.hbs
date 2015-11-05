@@ -1,0 +1,22 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          <i class="{{titleIcon}}"></i>
+        </h4>
+      </div>
+      <div class="modal-body">
+        {{yield}}
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="modal-btn modal-close-btn" data-dismiss="modal" href='#'>
+          <i class='ion-close-round'></i>
+        </a>
+        <a type="button" class="modal-btn modal-ok-btn" {{action 'ok'}} href='#'>
+          <i class='ion-checkmark-round'></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
