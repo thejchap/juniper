@@ -19,6 +19,13 @@ body {
   padding-top: @navbar-height;
 }
 
+@media(min-width: @screen-lg-min) {
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 .modal, .modal-dialog, .modal-header, .modal-footer, .modal-content {
   border: none;
   box-shadow: none;
