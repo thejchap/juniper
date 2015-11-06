@@ -1,19 +1,32 @@
 import DS from 'ember-data';
 import ENV from 'sprh-bulbs/config/environment';
 import Ember from 'ember';
+import Reversable from 'sprh-bulbs/mixins/stem/reversable';
 const { computed, observer, run } = Ember;
 const { attr } = DS;
 
-const Stem = DS.Model.extend({
+const Stem = DS.Model.extend(Reversable, {
   fileName: attr(),
 
+  reverseFileName: attr(),
+
   init() {
-    this._initGainNode();
-    run.next(() => this._loadAudio());
+    this._super();
+
+    this.createGainNodes();
+
+    run.next(() => this.loadAudio({
+      url: this.get('audioUrl'),
+      bufferKey: 'audioBuffer'
+    }));
+  },
+
+  makeFileUrl(fileName) {
+    return `${ENV.APP.STEMS_BASE_URL}/${this.get(fileName)}`;
   },
 
   audioUrl: computed('fileName', function() {
-    return `${ENV.APP.STEMS_BASE_URL}/${this.get('fileName')}`;
+    return this.makeFileUrl('fileName');
   }),
 
   audioBuffer: null,
@@ -21,8 +34,6 @@ const Stem = DS.Model.extend({
   defaultVolume: ENV.APP.DEFAULT_VOLUME,
 
   volume: null,
-
-  isReversed: false,
 
   gainNode: null,
 
@@ -35,7 +46,7 @@ const Stem = DS.Model.extend({
   }),
 
   toggleMute: observer('on', function() {
-    this.set('gainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
+    this.set('masterGainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
   }),
 
   bulbVariant: computed('id', function() {
@@ -56,40 +67,53 @@ const Stem = DS.Model.extend({
     return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
   },
 
-  _loadAudio() {
+  loadAudio(opts) {
+    const { url, bufferKey } = opts;
     const ctx = this.get('audioContext');
     let req = new XMLHttpRequest();
-    req.open('GET', this.get('audioUrl'), true);
+
+    req.open('GET', url, true);
     req.responseType = 'arraybuffer';
 
-    req.onload = () => {
-      ctx.decodeAudioData(req.response, (buffer) => {
-        this.set('audioBuffer', buffer);
-      });
-    };
+    req.onload = () => ctx.decodeAudioData(
+      req.response,
+      (buffer) => this.set(bufferKey, buffer)
+    );
 
     req.send();
   },
 
-  _initGainNode() {
-    const gainNode = this.get('audioContext').createGain();
-    gainNode.gain.value = this.get('on') ? this.get('defaultVolume') : 0;
-    this.set('gainNode', gainNode);
+  createGainNode(key, vol = 1) {
+    const node = this.get('audioContext').createGain();
+    node.gain.value = vol;
+    this.set(key, node);
+  },
+
+  createGainNodes() {
+    this._super();
+    const masterVol = this.get('on') ? this.get('defaultVolume') : 0;
+    this.createGainNode('gainNode');
+    this.createGainNode('masterGainNode', masterVol);
   },
 
   play(start, stop) {
+    this._super(start, stop);
+
     if (!this.get('audioBuffer')) {
-      return false;
+      return;
     }
 
-    const buffer = this.get('audioBuffer');
     const ctx = this.get('audioContext');
+    const masterGainNode = this.get('masterGainNode');
+    const buffer = this.get('audioBuffer');
     const src = ctx.createBufferSource();
     const gainNode = this.get('gainNode');
 
     src.buffer = buffer;
     src.connect(gainNode);
-    gainNode.connect(ctx.destination);
+    gainNode.connect(masterGainNode);
+    masterGainNode.connect(ctx.destination);
+
     src.start(start);
     src.stop(stop);
   }

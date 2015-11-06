@@ -14,9 +14,9 @@
     <i class='ion-volume-medium'></i>
   </a>
   <a href="#" class='bulb-control reverse {{if stem.isReversed "active"}}' {{action 'toggleReverse' bubbles=false}}>
-    <i class='ion-ios-rewind'></i>
+    <i class='ion-ios-{{if stem.isReversed "fastforward" "rewind"}}'></i>
   </a>
   <a href="#" class='bulb-control mute {{if stem.on "active"}}' {{action 'toggleMute' bubbles=false}}>
-    <i class='ion-power'></i>
+    <i class='ion-lightbulb'></i>
   </a>
 </div>
