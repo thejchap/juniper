@@ -1,8 +1,8 @@
 import Ember from 'ember';
-const { computed, observer, run } = Ember;
+const { computed, observer } = Ember;
 
 export default Ember.Mixin.create({
-  hasReverseFile: computed.bool('reverseFileName'),
+  reversable: computed.bool('reverseFileName'),
 
   reverseAudioBuffer: null,
 
@@ -11,18 +11,15 @@ export default Ember.Mixin.create({
   isReversed: false,
 
   init() {
-    if (!this.get('hasReverseFile')) {
+    if (!this.get('reversable')) {
       return;
     }
 
-    run.next(() => this.loadAudio({
-      url: this.get('reverseAudioUrl'),
-      bufferKey: 'reverseAudioBuffer'
-    }));
+    this.addToBufferQueue(this.get('reverseAudioUrl'), 'reverseAudioBuffer');
   },
 
   createGainNodes() {
-    if (!this.get('hasReverseFile')) {
+    if (!this.get('reversable')) {
       return;
     }
 
@@ -34,7 +31,7 @@ export default Ember.Mixin.create({
   }),
 
   toggleReversed: observer('isReversed', function() {
-    if (!this.get('hasReverseFile')) {
+    if (!this.get('reversable')) {
       return;
     }
 
@@ -44,7 +41,7 @@ export default Ember.Mixin.create({
   }),
 
   play(start, stop) {
-    if (!this.get('hasReverseFile') || !this.get('reverseAudioBuffer')) {
+    if (!this.get('reversable')) {
       return;
     }
 

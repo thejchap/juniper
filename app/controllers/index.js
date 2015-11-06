@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
     mixHex: 'm'
   },
 
-  mixHex: '20010000',
+  mixHex: null,
 
   transport: Ember.inject.controller()
 });

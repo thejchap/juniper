@@ -17,13 +17,7 @@
 
 body {
   padding-top: @navbar-height;
-}
-
-@media(min-width: @screen-lg-min) {
-  body {
-    height: 100%;
-    overflow: hidden;
-  }
+  color: white;
 }
 
 .modal, .modal-dialog, .modal-header, .modal-footer, .modal-content {
@@ -61,6 +55,7 @@ body {
   border: none;
   li {
     a {
+      opacity: 0.7;
       transition: all 0.5s;
       font-size: 30px;
       .circle {
@@ -74,6 +69,7 @@ body {
       }
 
       &:hover {
+        opacity: 1;
         .circle {
           border-color: white;
         }

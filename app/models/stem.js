@@ -5,29 +5,24 @@ import Reversable from 'sprh-bulbs/mixins/stem/reversable';
 const { computed, observer, run } = Ember;
 const { attr } = DS;
 
-const Stem = DS.Model.extend(Reversable, {
+const Stem = DS.Model.extend(
+  Reversable,
+{
+  /**
+   * @public
+   * @property fileName
+   * @description Name of the normal MP3 file hosted on the CDN
+   */
   fileName: attr(),
 
+  /**
+   * @public
+   * @property reverseFileName
+   * @description Name of the reversed MP3 file hosted on the CDN
+   */
   reverseFileName: attr(),
 
-  init() {
-    this._super();
-
-    this.createGainNodes();
-
-    run.next(() => this.loadAudio({
-      url: this.get('audioUrl'),
-      bufferKey: 'audioBuffer'
-    }));
-  },
-
-  makeFileUrl(fileName) {
-    return `${ENV.APP.STEMS_BASE_URL}/${this.get(fileName)}`;
-  },
-
-  audioUrl: computed('fileName', function() {
-    return this.makeFileUrl('fileName');
-  }),
+  bufferQueue: [],
 
   audioBuffer: null,
 
@@ -41,12 +36,12 @@ const Stem = DS.Model.extend(Reversable, {
 
   off: computed.not('on'),
 
-  width: computed(() => {
-    return Math.floor(Math.random() * 80) + 40;
+  audioUrl: computed('fileName', function() {
+    return this.makeFileUrl('fileName');
   }),
 
-  toggleMute: observer('on', function() {
-    this.set('masterGainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
+  width: computed(() => {
+    return Math.floor(Math.random() * 80) + 40;
   }),
 
   bulbVariant: computed('id', function() {
@@ -63,24 +58,38 @@ const Stem = DS.Model.extend(Reversable, {
     return this._makeBulbUrl('off');
   }),
 
-  _makeBulbUrl(state) {
-    return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
+  toggleMute: observer('on', function() {
+    this.set('masterGainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
+  }),
+
+  init() {
+    this._super();
+    this.createGainNodes();
+    this.addToBufferQueue(this.get('audioUrl'), 'audioBuffer');
   },
 
-  loadAudio(opts) {
-    const { url, bufferKey } = opts;
-    const ctx = this.get('audioContext');
-    let req = new XMLHttpRequest();
+  loadAudio() {
+    return Promise.all(this.get('bufferQueue'));
+  },
 
-    req.open('GET', url, true);
-    req.responseType = 'arraybuffer';
+  addToBufferQueue(url, key) {
+    this.get('bufferQueue').pushObject(this.loadBuffer(url, key));
+  },
 
-    req.onload = () => ctx.decodeAudioData(
-      req.response,
-      (buffer) => this.set(bufferKey, buffer)
-    );
+  loadBuffer(url, key) {
+    return new Promise((resolve) => {
+      const ctx = this.get('audioContext');
+      let req = new XMLHttpRequest();
+      req.open('GET', url, true);
+      req.responseType = 'arraybuffer';
 
-    req.send();
+      req.onload = () => ctx.decodeAudioData(req.response, (buffer) => {
+        this.set(key, buffer);
+        resolve();
+      });
+
+      run.next(() => req.send());
+    });
   },
 
   createGainNode(key, vol = 1) {
@@ -99,10 +108,6 @@ const Stem = DS.Model.extend(Reversable, {
   play(start, stop) {
     this._super(start, stop);
 
-    if (!this.get('audioBuffer')) {
-      return;
-    }
-
     const ctx = this.get('audioContext');
     const masterGainNode = this.get('masterGainNode');
     const buffer = this.get('audioBuffer');
@@ -116,11 +121,25 @@ const Stem = DS.Model.extend(Reversable, {
 
     src.start(start);
     src.stop(stop);
+  },
+
+  makeFileUrl(fileName) {
+    return `${ENV.APP.STEMS_BASE_URL}/${this.get(fileName)}`;
+  },
+
+  _makeBulbUrl(state) {
+    return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
   }
 });
 
 Stem.reopenClass({
-  FIXTURES: ENV.APP.STEM_FIXTURES
+  FIXTURES: ENV.APP.STEM_FIXTURES,
+
+  urlEncode(stems) {
+  },
+
+  urlDecode(string) {
+  }
 });
 
 export default Stem;

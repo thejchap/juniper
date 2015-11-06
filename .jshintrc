@@ -3,7 +3,7 @@
     "document",
     "AudioContext",
     "window",
-    "-Promise"
+    "Promise"
   ],
   "browser": true,
   "boss": true,
