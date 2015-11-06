@@ -1,47 +1,79 @@
 import Ember from 'ember';
-const { computed, observer } = Ember;
+const { computed } = Ember;
 
 export default Ember.Mixin.create({
-  reversable: computed.bool('reverseFileName'),
+  /**
+   * @public
+   * @property isReversable
+   * @readonly
+   * @type {Boolean}
+   */
+  isReversable: computed.bool('reverseFileName').readOnly(),
 
+  /**
+   * @public
+   * @property reverseAudioBuffer
+   * @readonly
+   * @type {AudioBuffer}
+   */
   reverseAudioBuffer: null,
 
+  /**
+   * @public
+   * @property reverseGainNode
+   * @type {GainNode}
+   */
   reverseGainNode: null,
 
-  isReversed: false,
+  /**
+   * @public
+   * @property isReversed
+   * @type {Boolean}
+   * @default false
+   */
+  isReversed: computed('_isReversed', {
+    get() {
+      return this.get('_isReversed');
+    },
+
+    set(_key, reversed) {
+      this.set('_isReversed', reversed);
+
+      if (!this.get('isReversable')) {
+        return reversed;
+      }
+
+      this.set('gainNode.gain.value', reversed ? 0 : 1);
+      this.set('reverseGainNode.gain.value', reversed ? 1 : 0);
+
+      return reversed;
+    }
+  }),
+
+  /**
+   * @public
+   * @property isReversed
+   * @type {Boolean}
+   * @default false
+   */
+  reverseAudioUrl: computed('reverseFileName', function() {
+    return this.makeFileUrl('reverseFileName');
+  }).readOnly(),
 
   init() {
-    if (!this.get('reversable')) {
+    this._super();
+
+    if (!this.get('isReversable')) {
       return;
     }
 
     this.addToBufferQueue(this.get('reverseAudioUrl'), 'reverseAudioBuffer');
   },
 
-  createGainNodes() {
-    if (!this.get('reversable')) {
-      return;
-    }
-
-    this.createGainNode('reverseGainNode', 0);
-  },
-
-  reverseAudioUrl: computed('reverseFileName', function() {
-    return this.makeFileUrl('reverseFileName');
-  }),
-
-  toggleReversed: observer('isReversed', function() {
-    if (!this.get('reversable')) {
-      return;
-    }
-
-    const r = this.get('isReversed');
-    this.set('gainNode.gain.value', r ? 0 : 1);
-    this.set('reverseGainNode.gain.value', r ? 1 : 0);
-  }),
-
   play(start, stop) {
-    if (!this.get('reversable')) {
+    this._super(start, stop);
+
+    if (!this.get('isReversable')) {
       return;
     }
 
@@ -57,5 +89,23 @@ export default Ember.Mixin.create({
 
     reverseSrc.start(start);
     reverseSrc.stop(stop);
-  }
+  },
+
+  createGainNodes() {
+    this._super();
+
+    if (!this.get('isReversable')) {
+      return;
+    }
+
+    this.createGainNode('reverseGainNode', 0);
+  },
+
+  /**
+   * @private
+   * @property _isReversed
+   * @default false
+   * @type {Boolean}
+   */
+  _isReversed: false
 });

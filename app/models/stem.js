@@ -2,15 +2,21 @@ import DS from 'ember-data';
 import ENV from 'sprh-bulbs/config/environment';
 import Ember from 'ember';
 import Reversable from 'sprh-bulbs/mixins/stem/reversable';
-const { computed, observer, run } = Ember;
+import Distortable from 'sprh-bulbs/mixins/stem/distortable';
+import Filterable from 'sprh-bulbs/mixins/stem/filterable';
+
+const { computed, run } = Ember;
 const { attr } = DS;
 
 const Stem = DS.Model.extend(
   Reversable,
+  Distortable,
+  Filterable,
 {
   /**
    * @public
    * @property fileName
+   * @type {String}
    * @description Name of the normal MP3 file hosted on the CDN
    */
   fileName: attr(),
@@ -18,49 +24,99 @@ const Stem = DS.Model.extend(
   /**
    * @public
    * @property reverseFileName
+   * @type {String}
    * @description Name of the reversed MP3 file hosted on the CDN
    */
   reverseFileName: attr(),
 
+  /**
+   * @public
+   * @property bufferQueue
+   * @type {Array}
+   * @description Array of audio-loading promises
+   */
   bufferQueue: [],
 
+  /**
+   * @public
+   * @property bufferQueue
+   * @type {Array}
+   * @description Array of audio-loading promises
+   */
   audioBuffer: null,
 
+  /**
+   * @public
+   * @property defaultVolume
+   * @type {Number}
+   */
   defaultVolume: ENV.APP.DEFAULT_VOLUME,
 
   volume: null,
 
+  /**
+   * @public
+   * @property gainNode
+   * @type {GainNode}
+   */
   gainNode: null,
 
-  on: false,
+  /**
+   * @public
+   * @property masterGainNode
+   * @type {GainNode}
+   */
+  masterGainNode: null,
 
-  off: computed.not('on'),
+  /**
+   * @public
+   * @property on
+   * @type {Boolean}
+   * @default false
+   */
+  on: computed('_on', {
+    get() {
+      return this.get('_on');
+    },
+
+    set(_key, on) {
+      const vol = this.get('defaultVolume');
+      const key = 'masterGainNode.gain.value';
+
+      this.set('_on', on);
+      this.set(key, on ? vol : 0);
+
+      return on;
+    }
+  }),
+
+  /**
+   * @public
+   * @property off
+   * @readonly
+   * @type {Boolean}
+   */
+  off: computed.not('on').readOnly(),
 
   audioUrl: computed('fileName', function() {
     return this.makeFileUrl('fileName');
-  }),
+  }).readOnly(),
 
   width: computed(() => {
     return Math.floor(Math.random() * 80) + 40;
-  }),
+  }).readOnly(),
 
   bulbVariant: computed('id', function() {
-    const id = this.get('id');
-    const opts = ENV.APP.BULB_VARIANTS;
-    return ((id + Math.floor(Math.random() * 4) + 0) % opts) + 1;
-  }),
+    return (this.get('id') % ENV.APP.BULB_VARIANTS) + 1;
+  }).readOnly(),
 
   onBulbUrl: computed('bulbVariant', function() {
     return this._makeBulbUrl('on');
-  }),
+  }).readOnly(),
 
   offBulbUrl: computed('bulbVariant', function() {
     return this._makeBulbUrl('off');
-  }),
-
-  toggleMute: observer('on', function() {
-    this.set('masterGainNode.gain.value', this.get('on') ? this.get('defaultVolume') : 0);
-  }),
+  }).readOnly(),
 
   init() {
     this._super();
@@ -73,23 +129,7 @@ const Stem = DS.Model.extend(
   },
 
   addToBufferQueue(url, key) {
-    this.get('bufferQueue').pushObject(this.loadBuffer(url, key));
-  },
-
-  loadBuffer(url, key) {
-    return new Promise((resolve) => {
-      const ctx = this.get('audioContext');
-      let req = new XMLHttpRequest();
-      req.open('GET', url, true);
-      req.responseType = 'arraybuffer';
-
-      req.onload = () => ctx.decodeAudioData(req.response, (buffer) => {
-        this.set(key, buffer);
-        resolve();
-      });
-
-      run.next(() => req.send());
-    });
+    this.get('bufferQueue').pushObject(this._loadBuffer(url, key));
   },
 
   createGainNode(key, vol = 1) {
@@ -124,21 +164,40 @@ const Stem = DS.Model.extend(
   },
 
   makeFileUrl(fileName) {
-    return `${ENV.APP.STEMS_BASE_URL}/${this.get(fileName)}`;
+    return `${ENV.APP.CDN_URL}/audio/${this.get(fileName)}`;
   },
+
+  _on: false,
 
   _makeBulbUrl(state) {
     return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
+  },
+
+  _loadBuffer(url, key) {
+    return new Promise((resolve) => {
+      const ctx = this.get('audioContext');
+      let req = new XMLHttpRequest();
+
+      req.open('GET', url, true);
+      req.responseType = 'arraybuffer';
+
+      req.onload = () => ctx.decodeAudioData(req.response, (buffer) => {
+        this.set(key, buffer);
+        resolve();
+      });
+
+      run.next(() => req.send());
+    });
   }
 });
 
 Stem.reopenClass({
   FIXTURES: ENV.APP.STEM_FIXTURES,
 
-  urlEncode(stems) {
+  urlEncode(/* collection */) {
   },
 
-  urlDecode(string) {
+  urlDecode(/* string */) {
   }
 });
 
