@@ -8,47 +8,16 @@
 @navbar-padding-vertical: 15px;
 @body-bg: black;
 @navbar-height: 90px;
-@modal-content-bg: transparent;
-@modal-content-border-color: transparent;
 @modal-backdrop-opacity: 0.75;
 
 @import 'animations';
 @import 'sprh-bulb';
+@import 'knob-component';
+@import 'modal-component';
 
 body {
   padding-top: @navbar-height;
   color: white;
-}
-
-.modal, .modal-dialog, .modal-header, .modal-footer, .modal-content {
-  border: none;
-  box-shadow: none;
-}
-
-.modal {
-  h4 {
-    font-size: 42px;
-    color: @brand-primary;
-  }
-
-  .modal-btn {
-    text-align: center;
-    height: 5rem;
-    width: 5rem;
-    border-radius: 2.5rem;
-    border: 2px solid @brand-primary;
-    color: @brand-primary;
-    display: inline-block;
-    font-size: 2.5rem;
-    box-sizing: border-box;
-    padding: 0.5rem;
-    transition: all 0.4s;
-
-    &:hover {
-      color: white;
-      border-color: white;
-    }
-  }
 }
 
 .navbar.navbar-default {

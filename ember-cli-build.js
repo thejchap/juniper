@@ -6,7 +6,9 @@ module.exports = function(defaults) {
     // Add options here
   });
 
-  app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.min.js');
+  app.import(app.bowerDirectory + '/bootstrap/js/transition.js');
+  app.import(app.bowerDirectory + '/bootstrap/js/modal.js');
+  app.import(app.bowerDirectory + '/aterrien/jQuery-Knob/dist/jquery.knob.min.js');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

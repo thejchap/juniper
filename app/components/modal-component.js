@@ -1,20 +1,20 @@
 import Ember from 'ember';
-const { run } = Ember;
+const { run, on } = Ember;
 
 export default Ember.Component.extend({
-  show: function() {
+  show: on('didInsertElement', function() {
     run.next(() => {
-      this.$('.modal').modal().on('hidden.bs.modal', function() {
+      this.$('.modal').modal().on('hidden.bs.modal', () => {
         this.sendAction('close');
-      }.bind(this));
+      }).on('hide.bs.modal', function() {
+        Ember.$(this).addClass('out');
+      });
     });
-  }.on('didInsertElement'),
+  }),
 
   actions: {
     ok() {
-      this.sendAction('ok', () => {
-        this.$('.modal').modal('hide');
-      });
+      this.$('.modal').modal('hide');
     }
   }
 });

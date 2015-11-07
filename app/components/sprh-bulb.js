@@ -48,7 +48,7 @@ export default Ember.Component.extend({
     this.sendAction('showModal', `modals/bulb-controls/${which}`, this.get('stem'));
 
     run.next(() => {
-      Ember.$('.modal').on('hidden.bs.modal', () => {
+      Ember.$('.modal').on('hide.bs.modal', () => {
         this.set('isHovered', false);
       });
     });

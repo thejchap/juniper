@@ -47,12 +47,22 @@ const Stem = DS.Model.extend(
 
   /**
    * @public
-   * @property defaultVolume
+   * @property volume
    * @type {Number}
    */
-  defaultVolume: ENV.APP.DEFAULT_VOLUME,
+  volume: computed('_volume', {
+    get() {
+      return this.get('_volume') || ENV.APP.DEFAULT_VOLUME;
+    },
 
-  volume: null,
+    set(_key, volume) {
+      this.set('_volume', volume);
+      this.set('masterGainNode.gain.value', volume);
+      this.set('on', true);
+
+      return volume;
+    }
+  }),
 
   /**
    * @public
@@ -80,7 +90,7 @@ const Stem = DS.Model.extend(
     },
 
     set(_key, on) {
-      const vol = this.get('defaultVolume');
+      const vol = this.get('volume');
       const key = 'masterGainNode.gain.value';
 
       this.set('_on', on);
@@ -97,6 +107,24 @@ const Stem = DS.Model.extend(
    * @type {Boolean}
    */
   off: computed.not('on').readOnly(),
+
+  /**
+   * @public
+   * @property volumeIconClass
+   * @readonly
+   * @type {String}
+   */
+  volumeIconClass: computed('volume', function() {
+    const n = this.get('volume');
+
+    if (n <= 0.4) {
+      return 'ion-volume-low';
+    } else if (n > 0.4 && n <= 0.8) {
+      return 'ion-volume-medium';
+    } else {
+      return 'ion-volume-high';
+    }
+  }).readOnly(),
 
   audioUrl: computed('fileName', function() {
     return this.makeFileUrl('fileName');
@@ -140,12 +168,16 @@ const Stem = DS.Model.extend(
 
   createGainNodes() {
     this._super();
-    const masterVol = this.get('on') ? this.get('defaultVolume') : 0;
+    const masterVol = this.get('on') ? this.get('volume') : 0;
     this.createGainNode('gainNode');
     this.createGainNode('masterGainNode', masterVol);
   },
 
   play(start, stop) {
+    if (ENV.APP.SKIP_AUDIO) {
+      return;
+    }
+
     this._super(start, stop);
 
     const ctx = this.get('audioContext');
@@ -169,6 +201,8 @@ const Stem = DS.Model.extend(
 
   _on: false,
 
+  _volume: null,
+
   _makeBulbUrl(state) {
     return `${ENV.APP.CDN_URL}/img/${state}/${this.get('bulbVariant')}.png`;
   },
@@ -180,6 +214,10 @@ const Stem = DS.Model.extend(
 
       req.open('GET', url, true);
       req.responseType = 'arraybuffer';
+
+      if (ENV.APP.SKIP_AUDIO) {
+        return resolve();
+      }
 
       req.onload = () => ctx.decodeAudioData(req.response, (buffer) => {
         this.set(key, buffer);
