@@ -5,7 +5,7 @@ import Reversable from 'sprh-bulbs/mixins/stem/reversable';
 import Distortable from 'sprh-bulbs/mixins/stem/distortable';
 import Filterable from 'sprh-bulbs/mixins/stem/filterable';
 
-const { computed, run } = Ember;
+const { computed, run, assert } = Ember;
 const { attr } = DS;
 
 const Stem = DS.Model.extend(
@@ -78,6 +78,14 @@ const Stem = DS.Model.extend(
    */
   masterGainNode: null,
 
+
+  /**
+   * @public
+   * @property fxGainNode
+   * @type {GainNode}
+   */
+  fxGainNode: null,
+
   /**
    * @public
    * @property on
@@ -126,50 +134,94 @@ const Stem = DS.Model.extend(
     }
   }).readOnly(),
 
+  /**
+   * @public
+   * @property audioUrl
+   * @readonly
+   * @type {String}
+   */
   audioUrl: computed('fileName', function() {
     return this.makeFileUrl('fileName');
   }).readOnly(),
 
+  /**
+   * @public
+   * @property width
+   * @readonly
+   * @type {Number}
+   */
   width: computed(() => {
-    return Math.floor(Math.random() * 80) + 40;
+    return Math.floor(Math.random() * 100) + 60;
   }).readOnly(),
 
+  /**
+   * @public
+   * @property bulbVariant
+   * @readonly
+   * @type {Number}
+   */
   bulbVariant: computed('id', function() {
     return (this.get('id') % ENV.APP.BULB_VARIANTS) + 1;
   }).readOnly(),
 
+  /**
+   * @public
+   * @property onBulbUrl
+   * @readonly
+   * @type {String}
+   */
   onBulbUrl: computed('bulbVariant', function() {
     return this._makeBulbUrl('on');
   }).readOnly(),
 
+  /**
+   * @public
+   * @property offBulbUrl
+   * @readonly
+   * @type {String}
+   */
   offBulbUrl: computed('bulbVariant', function() {
     return this._makeBulbUrl('off');
   }).readOnly(),
 
+  /**
+   * @public
+   * @method init
+   */
   init() {
     this._super();
-    this.createGainNodes();
+    this.createNodes();
     this.addToBufferQueue(this.get('audioUrl'), 'audioBuffer');
   },
 
+  /**
+   * @public
+   * @return {Promise}
+   */
   loadAudio() {
     return Promise.all(this.get('bufferQueue'));
   },
 
+  /**
+   * @public
+   * @param {String} url
+   * @param {String} key
+   */
   addToBufferQueue(url, key) {
-    this.get('bufferQueue').pushObject(this._loadBuffer(url, key));
+    return this.get('bufferQueue').pushObject(this._loadBuffer(url, key));
   },
 
   createGainNode(key, vol = 1) {
     const node = this.get('audioContext').createGain();
     node.gain.value = vol;
-    this.set(key, node);
+    return this.set(key, node);
   },
 
-  createGainNodes() {
+  createNodes() {
     this._super();
     const masterVol = this.get('on') ? this.get('volume') : 0;
     this.createGainNode('gainNode');
+    this.createGainNode('fxGainNode', 1);
     this.createGainNode('masterGainNode', masterVol);
   },
 
@@ -178,21 +230,31 @@ const Stem = DS.Model.extend(
       return;
     }
 
+    assert(`Invalid start value for .play: ${start}`, start);
+    assert(`Invalid stop value for .play: ${stop}`, stop);
+
     this._super(start, stop);
 
     const ctx = this.get('audioContext');
-    const masterGainNode = this.get('masterGainNode');
-    const buffer = this.get('audioBuffer');
+    const master = this.get('masterGainNode');
+    const fx = this.get('fxGainNode');
+    const gain = this.get('gainNode');
     const src = ctx.createBufferSource();
-    const gainNode = this.get('gainNode');
 
-    src.buffer = buffer;
-    src.connect(gainNode);
-    gainNode.connect(masterGainNode);
-    masterGainNode.connect(ctx.destination);
+    src.buffer = this.get('audioBuffer');
+    src.connect(gain);
+    gain.connect(fx);
 
+    const buss = this.routeFx(fx);
+
+    buss.connect(master);
+    master.connect(ctx.destination);
     src.start(start);
     src.stop(stop);
+  },
+
+  routeFx(node) {
+    return this._super(node) || node;
   },
 
   makeFileUrl(fileName) {

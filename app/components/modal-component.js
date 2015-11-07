@@ -2,6 +2,8 @@ import Ember from 'ember';
 const { run, on } = Ember;
 
 export default Ember.Component.extend({
+  close: 'close',
+
   show: on('didInsertElement', function() {
     run.next(() => {
       this.$('.modal').modal().on('hidden.bs.modal', () => {

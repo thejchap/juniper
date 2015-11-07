@@ -1,3 +1,9 @@
-{{#modal-component close='close' titleIcon='ion-erlenmeyer-flask'}}
-test
+{{#modal-component close='close'}}
+  {{#knob-component
+    value=model.filterFrequency
+    min=60
+    step=10
+    max=19000}}
+    <i class='ion-erlenmeyer-flask'></i>
+  {{/knob-component}}
 {{/modal-component}}

@@ -14,7 +14,6 @@ export default Ember.Mixin.create({
    * @public
    * @property reverseAudioBuffer
    * @readonly
-   * @type {AudioBuffer}
    */
   reverseAudioBuffer: null,
 
@@ -78,20 +77,18 @@ export default Ember.Mixin.create({
     }
 
     const ctx = this.get('audioContext');
-    const masterGainNode = this.get('masterGainNode');
-    const reverseBuffer = this.get('reverseAudioBuffer');
-    const reverseSrc = ctx.createBufferSource();
-    const reverseGainNode = this.get('reverseGainNode');
+    const fx = this.get('fxGainNode');
+    const src = ctx.createBufferSource();
+    const gain = this.get('reverseGainNode');
 
-    reverseSrc.buffer = reverseBuffer;
-    reverseSrc.connect(reverseGainNode);
-    reverseGainNode.connect(masterGainNode);
-
-    reverseSrc.start(start);
-    reverseSrc.stop(stop);
+    src.buffer = this.get('reverseAudioBuffer');
+    src.connect(gain);
+    gain.connect(fx);
+    src.start(start);
+    src.stop(stop);
   },
 
-  createGainNodes() {
+  createNodes() {
     this._super();
 
     if (!this.get('isReversable')) {
