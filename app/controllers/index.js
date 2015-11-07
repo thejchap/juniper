@@ -7,5 +7,11 @@ export default Ember.Controller.extend({
 
   mixHex: null,
 
-  transport: Ember.inject.controller()
+  transport: Ember.inject.controller(),
+
+  actions: {
+    togglePlaying() {
+      this.get('transport').send('togglePlaying');
+    }
+  }
 });

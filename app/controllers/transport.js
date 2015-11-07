@@ -100,6 +100,11 @@ export default Ember.Controller.extend({
     stop() {
       this.set('isPlaying', false);
       this.get('worker').postMessage('stop');
+      this.get('stems').invoke('stop');
+    },
+
+    togglePlaying() {
+      this.send(this.get('isPlaying') ? 'stop' : 'play');
     }
   }
 });

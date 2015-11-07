@@ -8,6 +8,13 @@
           </div>
         </a>
       </li>
+      <li class='nav-aux-link'>
+        <a href="#" {{action 'togglePlaying'}}>
+          <div class="circle circle-sm">
+            <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
+          </div>
+        </a>
+      </li>
     </ul>
     <ul class="nav navbar-nav pull-right">
       <li>

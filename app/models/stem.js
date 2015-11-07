@@ -39,6 +39,12 @@ const Stem = DS.Model.extend(
 
   /**
    * @public
+   * @property audioSrc
+   */
+  audioSrc: null,
+
+  /**
+   * @public
    * @property bufferQueue
    * @type {Array}
    * @description Array of audio-loading promises
@@ -150,9 +156,7 @@ const Stem = DS.Model.extend(
    * @readonly
    * @type {Number}
    */
-  width: computed(() => {
-    return Math.floor(Math.random() * 100) + 60;
-  }).readOnly(),
+  width: 100,
 
   /**
    * @public
@@ -226,6 +230,11 @@ const Stem = DS.Model.extend(
     this.createGainNode('masterGainNode', masterVol);
   },
 
+  stop() {
+    this._super();
+    this.get('audioSrc').stop();
+  },
+
   play(start, stop) {
     if (ENV.APP.SKIP_AUDIO) {
       return;
@@ -241,13 +250,11 @@ const Stem = DS.Model.extend(
     const fx = this.get('fxGainNode');
     const gain = this.get('gainNode');
     const src = ctx.createBufferSource();
-
     src.buffer = this.get('audioBuffer');
     src.connect(gain);
+    this.set('audioSrc', src);
     gain.connect(fx);
-
     const buss = this.routeFx(fx);
-
     buss.connect(master);
     master.connect(ctx.destination);
     src.start(start);

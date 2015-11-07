@@ -1,10 +1,19 @@
 import Ember from 'ember';
-const { run, on } = Ember;
+const { run, on, computed } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['sprh-bulb', 'item'],
 
-  classNameBindings: ['stem.on:on:off', 'isHovered', 'isGridLayoutComplete'],
+  classNameBindings: [
+    'stem.on:on:off',
+    'isHovered',
+    'isGridLayoutComplete',
+    'bulbVariantClass'
+  ],
+
+  bulbVariantClass: computed('stem.bulbVariant', function() {
+    return `bulb-variant-${this.get('stem.bulbVariant')}`;
+  }),
 
   showModal: 'showModal',
 

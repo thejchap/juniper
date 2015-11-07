@@ -12,6 +12,12 @@ export default Ember.Mixin.create({
 
   /**
    * @public
+   * @property reverseAudioSrc
+   */
+  reverseAudioSrc: null,
+
+  /**
+   * @public
    * @property reverseAudioBuffer
    * @readonly
    */
@@ -69,6 +75,16 @@ export default Ember.Mixin.create({
     this.addToBufferQueue(this.get('reverseAudioUrl'), 'reverseAudioBuffer');
   },
 
+  stop() {
+    this._super();
+
+    if (!this.get('isReversable')) {
+      return;
+    }
+
+    this.get('reverseAudioSrc').stop();
+  },
+
   play(start, stop) {
     this._super(start, stop);
 
@@ -83,6 +99,9 @@ export default Ember.Mixin.create({
 
     src.buffer = this.get('reverseAudioBuffer');
     src.connect(gain);
+
+    this.set('reverseAudioSrc', src);
+
     gain.connect(fx);
     src.start(start);
     src.stop(stop);

@@ -28,6 +28,7 @@ body {
       transition: all 0.5s;
       font-size: 30px;
       .circle {
+        text-align: center;
         transition: border-color 0.5s;
         padding: 14px 15px;
         width: 60px;
@@ -35,6 +36,16 @@ body {
         box-sizing: border-box;
         border: 2px solid @brand-primary;
         border-radius: 30px;
+
+        &.circle-sm {
+          width: 5rem;
+          height: 5rem;
+          font-size: 2.5rem;
+          line-height: 2.5rem;
+          border-radius: 2.5rem;
+          padding: 1rem 0.5rem;
+          margin-top: 4px;
+        }
       }
 
       &:hover {

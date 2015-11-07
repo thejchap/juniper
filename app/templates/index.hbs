@@ -1,6 +1,6 @@
 {{partial 'nav'}}
 
-<div class="container-fluid">
+<div class="container-fluid {{if transport.isPlaying 'is-playing'}}">
   {{#masonry-grid columnWidth='.grid-sizer'}}
     <div class="grid-sizer"></div>
     {{#each model as |stem|}}
