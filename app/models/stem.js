@@ -212,7 +212,8 @@ const Stem = DS.Model.extend(
   },
 
   createGainNode(key, vol = 1) {
-    const node = this.get('audioContext').createGain();
+    const ctx = this.get('audioContext');
+    const node = ctx.createGain ? ctx.createGain() : ctx.createGainNode();
     node.gain.value = vol;
     return this.set(key, node);
   },

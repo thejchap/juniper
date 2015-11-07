@@ -40,5 +40,5 @@ export default Ember.Mixin.create({
     return filter;
   },
 
-  _filterFrequency: 19999
+  _filterFrequency: 19000
 });

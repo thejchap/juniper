@@ -1,3 +1,81 @@
 import Ember from 'ember';
+const { computed, run, observer } = Ember;
 
-export default Ember.Mixin.create();
+export default Ember.Mixin.create({
+  distortionOverSample: '4x',
+
+  distortionCurve: computed(function() {
+    const k = 300;
+    const samples = 44100;
+    const deg = Math.PI / 180;
+    const curve = new Float32Array(samples);
+    let x;
+
+    for (let i = 0, l = samples; i < l; i ++) {
+      x = i * 2 / samples - 1;
+      curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+    }
+
+    return curve;
+  }),
+
+  distortionDirtyBalance: computed('distortionAmount', function() {
+    return Math.cos((1 - this.get('distortionAmount')) * 0.5 * Math.PI) * 0.3;
+  }),
+
+  distortionCleanBalance: computed('distortionAmount', function() {
+    return Math.cos(this.get('distortionAmount') * 0.5 * Math.PI);
+  }),
+
+  updateChannels: observer('distortionCleanBalance', 'distortionDirtyBalance', function() {
+    this.set('distortionCleanNode.gain.value', this.get('distortionCleanBalance'));
+    this.set('distortionGainNode.gain.value', this.get('distortionDirtyBalance'));
+  }),
+
+  distortionAmount: computed('_distortionAmount', {
+    get() {
+      return this.get('_distortionAmount');
+    },
+
+    set(_key, freq) {
+      this.set('_distortionAmount', freq);
+      this.set('on', true);
+
+      return freq;
+    }
+  }),
+
+  createNodes() {
+    this._super();
+
+    this.createGainNode('distortionGainNode', this.get('distortionDirtyBalance'));
+    this.createGainNode('distortionCleanNode', this.get('distortionCleanBalance'));
+    this.createGainNode('distortionMasterNode');
+
+    const ctx = this.get('audioContext');
+    const distortion = ctx.createWaveShaper();
+
+    distortion.curve = this.get('distortionCurve');
+    distortion.oversample = this.get('distortionOverSample');
+
+    this.set('distortionNode', distortion);
+  },
+
+  routeFx(node) {
+    const newNode = this._super(node) || node;
+    const distortion = this.get('distortionNode');
+    const gain = this.get('distortionGainNode');
+    const clean = this.get('distortionCleanNode');
+    const master = this.get('distortionMasterNode');
+
+    newNode.connect(clean);
+    newNode.connect(distortion);
+    distortion.connect(gain);
+    gain.connect(master);
+    clean.connect(master);
+
+    return master;
+  },
+
+  _distortionAmount: 0
+});

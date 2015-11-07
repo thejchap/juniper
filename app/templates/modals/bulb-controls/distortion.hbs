@@ -1,3 +1,9 @@
-{{#modal-component close='close' titleIcon='ion-nuclear'}}
-test
+{{#modal-component close='close'}}
+  {{#knob-component
+    value=model.distortionAmount
+    min=0
+    step=0.01
+    max=1}}
+    <i class='ion-nuclear'></i>
+  {{/knob-component}}
 {{/modal-component}}
