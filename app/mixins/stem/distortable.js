@@ -32,6 +32,22 @@ export default Ember.Mixin.create({
     this.set('distortionGainNode.gain.value', this.get('distortionDirtyBalance'));
   }),
 
+  urlEncode(propName) {
+    if (propName !== 'distortionAmount') {
+      return this._super(propName);
+    }
+
+    return parseInt(this.get('distortionAmount') * 100, 10);
+  },
+
+  shouldPersistProperty(propName) {
+    if (propName !== 'distortionAmount') {
+      return this._super(propName);
+    }
+
+    return this.get(propName) !== this.get('defaultDistortionAmount');
+  },
+
   distortionAmount: computed('_distortionAmount', {
     get() {
       return this.get('_distortionAmount');
@@ -77,5 +93,8 @@ export default Ember.Mixin.create({
     return master;
   },
 
-  _distortionAmount: 0
+  _distortionAmount: computed.oneWay('defaultDistortionAmount'),
+  defaultDistortionAmount: 0,
+  minDistortionAmount: computed.alias('defaultDistortionAmount').readOnly(),
+  maxDistortionAmount: 1
 });

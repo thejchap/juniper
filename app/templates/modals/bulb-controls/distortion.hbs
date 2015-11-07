@@ -1,9 +1,9 @@
 {{#modal-component close='close'}}
   {{#knob-component
     value=model.distortionAmount
-    min=0
+    min=model.minDistortionAmount
     step=0.01
-    max=1}}
+    max=model.maxDistortionAmount}}
     <i class='ion-nuclear'></i>
   {{/knob-component}}
 {{/modal-component}}

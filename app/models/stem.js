@@ -4,6 +4,7 @@ import Ember from 'ember';
 import Reversable from 'sprh-bulbs/mixins/stem/reversable';
 import Distortable from 'sprh-bulbs/mixins/stem/distortable';
 import Filterable from 'sprh-bulbs/mixins/stem/filterable';
+import { zeroPad } from 'sprh-bulbs/helpers/zero-pad';
 
 const { computed, run, assert } = Ember;
 const { attr } = DS;
@@ -83,7 +84,6 @@ const Stem = DS.Model.extend(
    * @type {GainNode}
    */
   masterGainNode: null,
-
 
   /**
    * @public
@@ -187,6 +187,56 @@ const Stem = DS.Model.extend(
   offBulbUrl: computed('bulbVariant', function() {
     return this._makeBulbUrl('off');
   }).readOnly(),
+
+  encodedState: computed('off', 'volume', 'distortionAmount', 'filterFrequency', 'isReversed', function() {
+    if (this.get('off')) {
+      return;
+    }
+
+    const props = Stem.PERSISTENT_PROPS;
+    let numProps = 0;
+    let whichProps = [];
+    let prop;
+
+    const values = Object.keys(props).map((propName) => {
+      prop = props[propName];
+
+      if (!this.shouldPersistProperty(propName)) {
+        return;
+      }
+
+      whichProps.push(prop.id);
+      numProps++;
+
+      return zeroPad(this.urlEncode(propName).toString(), {
+        length: prop.length
+      });
+    }).join('');
+
+    if (numProps === 0) {
+      return;
+    }
+
+    const str = `${numProps}${whichProps.join('')}${values}`;
+
+    return parseInt(str, 10).toString(16);
+  }),
+
+  urlEncode(propName) {
+    if (propName !== 'volume') {
+      return this._super(propName);
+    }
+
+    return parseInt(this.get(propName) * 100, 10);
+  },
+
+  shouldPersistProperty(propName) {
+    if (propName !== 'volume') {
+      return this._super(propName);
+    }
+
+    return this.get('volume') !== ENV.APP.DEFAULT_VOLUME;
+  },
 
   /**
    * @public
@@ -302,10 +352,67 @@ const Stem = DS.Model.extend(
 Stem.reopenClass({
   FIXTURES: ENV.APP.STEM_FIXTURES,
 
-  urlEncode(/* collection */) {
+  PERSISTENT_PROPS: {
+    volume: {
+      id: 1,
+      length: 2
+    },
+
+    isReversed: {
+      id: 2,
+      length: 1
+    },
+
+    distortionAmount: {
+      id: 3,
+      length: 2
+    },
+
+    filterFrequency: {
+      id: 4,
+      length: 5
+    }
   },
 
-  urlDecode(/* string */) {
+  urlEncodeIds(collection) {
+    if (!collection.get('length')) {
+      return null;
+    }
+
+    const re = /0+$/;
+
+    let str = collection.map((record) => {
+      const id = zeroPad(record.get('id'));
+      const encodedStateLength = zeroPad(record.get('encodedState.length'));
+      return `${id}${encodedStateLength}`;
+    }).join('');
+
+    str = parseInt(`1${str}`, 10).toString(16);
+    let trailingZeros = 0;
+
+    if (str.match(re)) {
+      trailingZeros = str.match(re)[0].length;
+    }
+
+    str = str.replace(re, '');
+
+    return { str, trailingZeros };
+  },
+
+  urlDecodeIds(/* collection */) {
+  },
+
+  urlEncodeData(collection) {
+    const states = collection.mapBy('encodedState').compact();
+
+    if (!states.get('length')) {
+      return null;
+    }
+
+    return states.join('');
+  },
+
+  urlDecodeData(/* string */) {
   }
 });
 

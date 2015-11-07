@@ -1,9 +1,9 @@
 {{#modal-component close='close'}}
   {{#knob-component
     value=model.filterFrequency
-    min=60
+    min=model.minFilterFrequency
     step=10
-    max=19000}}
+    max=model.maxFilterFrequency}}
     <i class='ion-erlenmeyer-flask'></i>
   {{/knob-component}}
 {{/modal-component}}

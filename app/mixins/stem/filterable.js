@@ -33,6 +33,22 @@ export default Ember.Mixin.create({
     this.set('filterNode', filter);
   },
 
+  urlEncode(propName) {
+    if (propName !== 'filterFrequency') {
+      return this._super(propName);
+    }
+
+    return this.get('filterFrequency');
+  },
+
+  shouldPersistProperty(propName) {
+    if (propName !== 'filterFrequency') {
+      return this._super(propName);
+    }
+
+    return this.get(propName) !== this.get('defaultFilterFrequency');
+  },
+
   routeFx(node) {
     const newNode = this._super(node) || node;
     const filter = this.get('filterNode');
@@ -40,5 +56,8 @@ export default Ember.Mixin.create({
     return filter;
   },
 
-  _filterFrequency: 19000
+  _filterFrequency: computed.oneWay('defaultFilterFrequency'),
+  defaultFilterFrequency: 19000,
+  minFilterFrequency: 60,
+  maxFilterFrequency: computed.oneWay('defaultFilterFrequency').readOnly()
 });

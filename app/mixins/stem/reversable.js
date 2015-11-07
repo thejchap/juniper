@@ -65,6 +65,22 @@ export default Ember.Mixin.create({
     return this.makeFileUrl('reverseFileName');
   }).readOnly(),
 
+  urlEncode(propName) {
+    if (propName !== 'isReversed') {
+      return this._super(propName);
+    }
+
+    return this.get('isReversed') ? 1 : 0;
+  },
+
+  shouldPersistProperty(propName) {
+    if (propName !== 'isReversed') {
+      return this._super(propName);
+    }
+
+    return this.get('isReversed');
+  },
+
   init() {
     this._super();
 
