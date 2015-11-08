@@ -415,7 +415,6 @@ Stem.reopenClass({
 
     let id;
     let len;
-    let data;
     let result = [];
 
     tuples.forEach((tuple) => {
@@ -423,7 +422,7 @@ Stem.reopenClass({
 
       result.push({
         id: parseInt(id, 10),
-        encodedStateLength: parseInt(len, 10)
+        encodedStateLength: len ? parseInt(len, 10) : 0
       });
     });
 
@@ -469,13 +468,17 @@ Stem.reopenClass({
       }
 
       result = {};
+      j = 0;
       chunk = str.slice(i, i + info.encodedStateLength);
       decodedChunk = parseInt(chunk, 16).toString();
       numProps = decodedChunk[0];
       whichEnd = parseInt(numProps, 10) + 1;
-      whichProps = decodedChunk.slice(1, whichEnd).split('').map((prop) => parseInt(prop, 10));
-      propsData = decodedChunk.slice(whichEnd, decodedChunk.length)
-      j = 0;
+
+      whichProps = decodedChunk.slice(1, whichEnd)
+        .split('')
+        .map((prop) => parseInt(prop, 10));
+
+      propsData = decodedChunk.slice(whichEnd, decodedChunk.length);
 
       result = {
         id: info.id,
@@ -492,6 +495,30 @@ Stem.reopenClass({
       i += info.encodedStateLength;
       return result;
     }).compact();
+  },
+
+  applyUrlData(stems, ids, stemData, store) {
+    if (!ids) {
+      return;
+    }
+
+    ids.forEach((id) => {
+      const stem = store.peekRecord('stem', id);
+
+      if (!stem) {
+        return;
+      }
+
+      stem.set('on', true);
+
+      if (stemData && stemData.findBy('id', id)) {
+        const data = stemData.findBy('id', id).attributes;
+
+        Object.keys(data).forEach((k) => {
+          stem.set(k, stem.urlDecode(k, data[k]));
+        });
+      }
+    });
   }
 });
 

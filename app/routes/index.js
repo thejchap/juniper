@@ -9,26 +9,7 @@ export default Ember.Route.extend({
     const ids = meta.mapBy('id');
 
     return loadStems.then((stems) => {
-      if (ids) {
-        ids.forEach((id) => {
-          const stem = this.store.peekRecord('stem', id);
-
-          if (!stem) {
-            return;
-          }
-
-          stem.set('on', true);
-
-          if (stemData && stemData.findBy('id', id)) {
-            const data = stemData.findBy('id', id).attributes;
-
-            Object.keys(data).forEach((k) => {
-              stem.set(k, stem.urlDecode(k, data[k]));
-            });
-          }
-        });
-      }
-
+      Stem.applyUrlData(stems, ids, stemData, this.store);
       const loadAudio = Promise.all(stems.invoke('loadAudio'));
       return loadAudio.then(() => stems);
     });

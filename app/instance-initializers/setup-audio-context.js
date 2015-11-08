@@ -1,15 +1,15 @@
-function initialize(instance) {
+function initialize(app) {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  const ctx = new AudioContext();
-  const { registry } = instance;
 
-  registry.register('service:audio-context', ctx, {
+  const ctx = new AudioContext();
+
+  app.register('service:audio-context', ctx, {
     instantiate: false,
     singleton: true
   });
 
-  registry.injection('model', 'audioContext', 'service:audio-context');
-  registry.injection('controller', 'audioContext', 'service:audio-context');
+  app.inject('model', 'audioContext', 'service:audio-context');
+  app.inject('controller', 'audioContext', 'service:audio-context');
 }
 
 export default {
