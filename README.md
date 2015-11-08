@@ -27,7 +27,7 @@ The final, encoded mix looks like this in the URL:
 http://squarepegroundhole.me/#/?i=7-2_9-8_29&s=798bcd8a74
 ```
 
-##### i parameters
+##### i parameter
 The `i` parameter is an underscore-delimited series of pairs containing the IDs of the 'on' sounds, as well as
 the length of that bulb's base-16 encoded 'state' string (these are all concatenated together and make up the `s` parameter.
 This allows us to store information about each bulb's volume/distortion/etc and keep the query string as short as possible.
@@ -52,17 +52,17 @@ In this example:
 ```
 
 Each string is then converted to base 10 and parsed out according to the following protocol (from left to right):
-- Number of properties manipulated
+- __Number of properties manipulated__
   - 1 digit
   - Min: 1, max: 4
-- Which properties manipulated
+- __Which properties manipulated__
   - Number of digits = number from the first digit
   - Possible values:
     - 1 - `volume`
     - 2 - `isReversed`
     - 3 - `distortionAmount`
     - 4 - `filterFrequency`
-- Values of those properties
+- __Values of manipulated properties__
   - Number of digits = number of properties manipulated * length of each each property
     - `volume`
       - 2 digits
