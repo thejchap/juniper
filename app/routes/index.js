@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Stem from 'juniper/models/stem';
-const { run } = Ember;
 
 export default Ember.Route.extend({
   model(params) {
@@ -10,19 +9,22 @@ export default Ember.Route.extend({
     const ids = meta.mapBy('id');
 
     return loadStems.then((stems) => {
-      Stem.applyUrlData(stems, ids, stemData, this.store);
-      const loadAudio = Promise.all(stems.invoke('loadAudio'));
-      return loadAudio.then(() => stems);
+      return Stem.applyUrlData(stems, ids, stemData, this.store);
     });
+  },
+
+  renderTemplate() {
+    this._super();
+
+    this.send('showModal', 'modals/loading', this.get('currentModel').getEach('bufferQueue'));
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-
     const transport = controller.get('transport');
-
+    const loadAudio = Promise.all(model.invoke('loadAudio'));
     transport.set('stems', model);
-    run.later(() => transport.send('play'), 400);
+    loadAudio.then(() => transport.send('play'));
   },
 
   actions: {

@@ -6,7 +6,7 @@ import Distortable from 'juniper/mixins/stem/distortable';
 import Filterable from 'juniper/mixins/stem/filterable';
 import { zeroPad } from 'juniper/helpers/zero-pad';
 
-const { computed, run, assert } = Ember;
+const { computed, run } = Ember;
 const { attr } = DS;
 
 const Stem = DS.Model.extend(
@@ -36,7 +36,9 @@ const Stem = DS.Model.extend(
    * @type {Array}
    * @description Array of audio-loading promises
    */
-  bufferQueue: [],
+  bufferQueue: computed(function() {
+    return new Ember.A([]);
+  }),
 
   /**
    * @public
@@ -301,6 +303,11 @@ const Stem = DS.Model.extend(
 
   stop() {
     this._super();
+
+    if (!this.get('audioSrc')) {
+      return;
+    }
+
     this.get('audioSrc').stop();
   },
 
@@ -308,9 +315,6 @@ const Stem = DS.Model.extend(
     if (ENV.APP.SKIP_AUDIO) {
       return;
     }
-
-    assert(`Invalid start value for .play: ${start}`, start);
-    assert(`Invalid stop value for .play: ${stop}`, stop);
 
     this._super(start, stop);
 
@@ -399,7 +403,7 @@ Stem.reopenClass({
 
   urlEncodeIds(collection) {
     if (!collection.get('length')) {
-      return null;
+      return -1;
     }
 
     let len;
@@ -422,7 +426,7 @@ Stem.reopenClass({
   },
 
   urlDecodeIds(str) {
-    if (!str) {
+    if (!str || str.toString() === '-1') {
       return [];
     }
 
@@ -534,6 +538,8 @@ Stem.reopenClass({
         });
       }
     });
+
+    return stems;
   }
 });
 

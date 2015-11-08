@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <ul class="nav navbar-nav actions-nav mix-actions">
+    <li>
+      <a href="#" class="hover-btn">
+        <div class='hover-btn-inner'>
+          <i class='ion-ios-settings-strong'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" {{action 'togglePlaying'}} class='sub-action-btn'>
+        <div class="sub-action-btn-inner">
+          <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class='sub-action-btn' {{action 'resetMix'}}>
+        <div class="sub-action-btn-inner">
+          <i class='ion-refresh'></i>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav pull-right actions-nav share-actions">
+    <li>
+      <a href="#" class='sub-action-btn' {{action 'post'}}>
+        <div class="sub-action-btn-inner">
+          <i class='ion-social-facebook'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class='sub-action-btn' {{action 'tweet'}}>
+        <div class="sub-action-btn-inner">
+          <i class='ion-social-twitter'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class='sub-action-btn' {{action 'pin'}}>
+        <div class="sub-action-btn-inner">
+          <i class='ion-social-pinterest'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class='sub-action-btn' {{action 'email'}}>
+        <div class="sub-action-btn-inner">
+          <i class='ion-email'></i>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class='hover-btn'>
+        <div class="hover-btn-inner">
+          <i class='ion-android-share-alt'></i>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>

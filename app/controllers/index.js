@@ -18,11 +18,5 @@ export default Ember.Controller.extend({
 
   redirectOnToggles: observer('model.@each.isReversed', 'model.@each.on', function() {
     run.next(() => this.send('updateUrl'));
-  }),
-
-  actions: {
-    togglePlaying() {
-      this.get('transport').send('togglePlaying');
-    }
-  }
+  })
 });

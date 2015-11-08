@@ -1,0 +1,11 @@
+{{#modal-component hideActions=true close='close'}}
+  {{#loading-knob progress=progress}}
+    <div class="loading-progress-num-wrapper">
+      <div class="loading-progress-num">
+        {{#if progress}}
+          {{progress}}%
+        {{/if}}
+      </div>
+    </div>
+  {{/loading-knob}}
+{{/modal-component}}

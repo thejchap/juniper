@@ -102,7 +102,7 @@ export default Ember.Mixin.create({
   stop() {
     this._super();
 
-    if (!this.get('isReversable')) {
+    if (!this.get('isReversable') || !this.get('reverseAudioSrc')) {
       return;
     }
 

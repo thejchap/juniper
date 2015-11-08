@@ -3,17 +3,21 @@
 @brand-primary: #d6ac79;
 @navbar-default-bg: transparent;
 @navbar-default-link-color: @brand-primary;
-@navbar-default-link-hover-color: white;
-@navbar-default-link-active-color: #fff;
+@navbar-default-link-hover-color: @brand-primary;
+@navbar-default-link-active-color: @brand-primary;
 @navbar-padding-vertical: 15px;
 @body-bg: black;
 @navbar-height: 90px;
-@modal-backdrop-opacity: 0.75;
+@modal-backdrop-opacity: 0.7;
 
 @import 'animations';
 @import 'sprh-bulb';
 @import 'knob-component';
 @import 'modal-component';
+
+a {
+   outline: 0 !important;
+}
 
 body {
   padding-top: @navbar-height;
@@ -24,38 +28,107 @@ a:focus, a:active {
   color: @brand-primary;
 }
 
+.loading-progress-num-wrapper {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  font-size: 20px;
+  line-height: 20px;
+  color: @brand-primary;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bulbs-wrapper {
+  transform: scale(0.95, 0.95);
+  transition: transform 1s;
+}
+
+body.audio-loaded {
+  .navbar.navbar-default {
+    transform: translateY(0);
+  opacity: 1;
+  }
+  .bulbs-wrapper {
+    transform: scale(1, 1);
+  }
+}
+
 .navbar.navbar-default {
   border: none;
-  li {
-    a {
-      opacity: 0.7;
-      transition: all 0.5s;
-      font-size: 30px;
-      .circle {
-        text-align: center;
-        transition: border-color 0.5s;
-        padding: 14px 15px;
-        width: 60px;
-        height: 60px;
-        box-sizing: border-box;
-        border: 2px solid @brand-primary;
-        border-radius: 30px;
+  transform: translateY(-@navbar-height);
+  transition: all 0.7s;
+  opacity: 0;
+  transition-delay: 0.2s;
 
-        &.circle-sm {
-          width: 5rem;
-          height: 5rem;
-          font-size: 2.5rem;
-          line-height: 2.5rem;
-          border-radius: 2.5rem;
-          padding: 1rem 0.5rem;
-          margin-top: 4px;
+  .actions-nav {
+    &.share-actions {
+      li:first-child .sub-action-btn { transition-delay: 0.12s }
+      li:nth-child(2) .sub-action-btn { transition-delay: 0.1s }
+      li:nth-child(3) .sub-action-btn { transition-delay: 0.07s }
+      li:nth-child(4) .sub-action-btn { transition-delay: 0.05s }
+      li:nth-child(5) .sub-action-btn { transition-delay: 0.02s }
+    }
+    &.mix-actions {
+      li:first-child .sub-action-btn { transition-delay: 0.02s }
+      li:last-child .sub-action-btn { transition-delay: 0.05s }
+    }
+    &.hovered {
+      li {
+        a {
+          &.hover-btn {
+            opacity: 1;
+          }
+          &.sub-action-btn {
+            transition-delay: 0s;
+            opacity: 1;
+            pointer-events: auto;
+
+            &:hover {
+              color: white;
+              .sub-action-btn-inner { border-color: white }
+            }
+          }
         }
       }
+    }
 
-      &:hover {
-        opacity: 1;
-        .circle {
-          border-color: white;
+    li {
+      a {
+        opacity: 0.7;
+        font-size: 30px;
+        transition: all 0.5s;
+        &.hover-btn {
+          .hover-btn-inner {
+            transition: border-color 0.5s;
+            text-align: center;
+            padding: 14px 15px;
+            width: 60px;
+            height: 60px;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            border-radius: 30px;
+          }
+        }
+
+        &.sub-action-btn{
+          opacity: 0;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          pointer-events: none;
+          .sub-action-btn-inner {
+            transition: border-color 0.5s;
+            border: 2px solid @brand-primary;
+            box-sizing: border-box;
+            text-align: center;
+            width: 5rem;
+            height: 5rem;
+            font-size: 2.5rem;
+            line-height: 2.5rem;
+            border-radius: 2.5rem;
+            padding: 1rem 0.5rem;
+          }
         }
       }
     }
