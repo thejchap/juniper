@@ -218,9 +218,19 @@ const Stem = DS.Model.extend(
     }
 
     const str = `${numProps}${whichProps.join('')}${values}`;
+    const num = parseInt(str, 10);
+    const ret = num.toString(16);
 
-    return parseInt(str, 10).toString(16);
-  }),
+    return ret;
+  }).readOnly(),
+
+  urlDecode(propName, val) {
+    if (propName !== 'volume') {
+      return this._super(propName, val);
+    }
+
+    return parseInt(val, 10) / 100;
+  },
 
   urlEncode(propName) {
     if (propName !== 'volume') {
@@ -379,27 +389,45 @@ Stem.reopenClass({
       return null;
     }
 
-    const re = /0+$/;
+    let len;
+    let str = '';
 
-    let str = collection.map((record) => {
-      const id = zeroPad(record.get('id'));
-      const encodedStateLength = zeroPad(record.get('encodedState.length'));
-      return `${id}${encodedStateLength}`;
-    }).join('');
+    collection.forEach((record) => {
+      len = (record.get('encodedState.length') || 0).toString();
 
-    str = parseInt(`1${str}`, 10).toString(16);
-    let trailingZeros = 0;
+      if (len > 0) {
+        str = `${str}${record.get('id')}-${len}_`;
+      } else {
+        str = `${str}${record.get('id')}_`;
+      }
+    });
 
-    if (str.match(re)) {
-      trailingZeros = str.match(re)[0].length;
-    }
-
-    str = str.replace(re, '');
-
-    return { str, trailingZeros };
+    str = str.replace(/_$/, '');
+    return str;
   },
 
-  urlDecodeIds(/* collection */) {
+  urlDecodeIds(str) {
+    if (!str) {
+      return [];
+    }
+
+    const tuples = str.split('_');
+
+    let id;
+    let len;
+    let data;
+    let result = [];
+
+    tuples.forEach((tuple) => {
+      [id, len] = tuple.split('-');
+
+      result.push({
+        id: parseInt(id, 10),
+        encodedStateLength: parseInt(len, 10)
+      });
+    });
+
+    return result;
   },
 
   urlEncodeData(collection) {
@@ -412,7 +440,58 @@ Stem.reopenClass({
     return states.join('');
   },
 
-  urlDecodeData(/* string */) {
+  urlDecodeData(str, meta) {
+    if (!str) {
+      return;
+    }
+
+    let i = 0;
+    let j = 0;
+    let chunk;
+    let decodedChunk;
+    let numProps;
+    let whichEnd;
+    let whichProps;
+    let propsData;
+    let result = {};
+    let prop;
+    let propData;
+
+    const props = Object.keys(this.PERSISTENT_PROPS).map((k) => ({
+      name: k,
+      id: this.PERSISTENT_PROPS[k].id,
+      length: this.PERSISTENT_PROPS[k].length
+    }));
+
+    return meta.map((info) => {
+      if (info.encodedStateLength < 1) {
+        return;
+      }
+
+      result = {};
+      chunk = str.slice(i, i + info.encodedStateLength);
+      decodedChunk = parseInt(chunk, 16).toString();
+      numProps = decodedChunk[0];
+      whichEnd = parseInt(numProps, 10) + 1;
+      whichProps = decodedChunk.slice(1, whichEnd).split('').map((prop) => parseInt(prop, 10));
+      propsData = decodedChunk.slice(whichEnd, decodedChunk.length)
+      j = 0;
+
+      result = {
+        id: info.id,
+        attributes: {}
+      };
+
+      whichProps.forEach((id) => {
+        prop = props.findBy('id', id);
+        propData = propsData.slice(j, j + prop.length);
+        result.attributes[prop.name] = parseInt(propData, 10);
+        j += prop.length;
+      });
+
+      i += info.encodedStateLength;
+      return result;
+    }).compact();
   }
 });
 

@@ -40,6 +40,14 @@ export default Ember.Mixin.create({
     return parseInt(this.get('distortionAmount') * 100, 10);
   },
 
+  urlDecode(propName, val) {
+    if (propName !== 'distortionAmount') {
+      return this._super(propName, val);
+    }
+
+    return parseInt(val, 10) / 100;
+  },
+
   shouldPersistProperty(propName) {
     if (propName !== 'distortionAmount') {
       return this._super(propName);

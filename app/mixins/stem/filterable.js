@@ -33,12 +33,20 @@ export default Ember.Mixin.create({
     this.set('filterNode', filter);
   },
 
+  urlDecode(propName, val) {
+    if (propName !== 'filterFrequency') {
+      return this._super(propName, val);
+    }
+
+    return parseInt(val, 10);
+  },
+
   urlEncode(propName) {
     if (propName !== 'filterFrequency') {
       return this._super(propName);
     }
 
-    return this.get('filterFrequency');
+    return parseInt(this.get('filterFrequency'), 10);
   },
 
   shouldPersistProperty(propName) {

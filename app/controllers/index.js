@@ -1,17 +1,14 @@
 import Ember from 'ember';
 import Stem from 'sprh-bulbs/models/stem';
-const { observer, computed } = Ember;
+const { observer, computed, run } = Ember;
 
 export default Ember.Controller.extend({
   queryParams: {
     ids: 'i',
-    idsTrailingZeros: 'z',
     stemData: 's'
   },
 
   ids: null,
-
-  idsTrailingZeros: 0,
 
   stemData: null,
 
@@ -21,16 +18,11 @@ export default Ember.Controller.extend({
 
   redirectOnPropChanges: observer('model.@each.encodedState', 'onStems.@each.length', function() {
     const stems = this.get('onStems');
-    const metadata = Stem.urlEncodeIds(stems);
+    const ids = Stem.urlEncodeIds(stems);
     const stemData = Stem.urlEncodeData(stems);
-    let queryParams = { stemData };
+    let queryParams = { stemData, ids };
 
-    if (metadata) {
-      queryParams.ids = metadata.str;
-      queryParams.idsTrailingZeros = metadata.trailingZeros;
-    }
-
-    this.transitionToRoute({ queryParams });
+    run.next(() => this.transitionToRoute({ queryParams }));
   }),
 
   actions: {

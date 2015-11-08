@@ -73,6 +73,14 @@ export default Ember.Mixin.create({
     return this.get('isReversed') ? 1 : 0;
   },
 
+  urlDecode(propName, val) {
+    if (propName !== 'isReversed') {
+      return this._super(propName, val);
+    }
+
+    return val === 1 ? true : false;
+  },
+
   shouldPersistProperty(propName) {
     if (propName !== 'isReversed') {
       return this._super(propName);

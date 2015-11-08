@@ -16,7 +16,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-      SKIP_AUDIO: true,
+      SKIP_AUDIO: false,
       CDN_URL: '//sprh.s3.amazonaws.com/bulbs',
       TEMPO: 164.0,
       BULB_VARIANTS: 4,
