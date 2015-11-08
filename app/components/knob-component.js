@@ -31,6 +31,9 @@ export default Ember.Component.extend({
     run.next(() => this.$('.knob').knob(Ember.merge(opts, {
       change(value) {
         self.set('value', value);
+      },
+      release() {
+        self.sendAction('onRelease');
       }
     })));
   })

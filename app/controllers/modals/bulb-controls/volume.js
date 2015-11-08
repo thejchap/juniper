@@ -4,6 +4,10 @@ export default Ember.Controller.extend({
   actions: {
     close() {
       this.send('removeModal');
+    },
+
+    volumeUpdated() {
+      this.send('updateUrl');
     }
   }
 });

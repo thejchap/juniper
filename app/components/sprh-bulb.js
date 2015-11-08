@@ -4,6 +4,8 @@ const { run, on, computed } = Ember;
 export default Ember.Component.extend({
   classNames: ['sprh-bulb', 'item'],
 
+  bulbToggled: 'updateUrl',
+
   classNameBindings: [
     'stem.on:on:off',
     'isHovered',

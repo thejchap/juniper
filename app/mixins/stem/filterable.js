@@ -54,7 +54,7 @@ export default Ember.Mixin.create({
       return this._super(propName);
     }
 
-    return this.get(propName) !== this.get('defaultFilterFrequency');
+    return this.get('isFilterManipulated');
   },
 
   routeFx(node) {
@@ -67,5 +67,9 @@ export default Ember.Mixin.create({
   _filterFrequency: computed.oneWay('defaultFilterFrequency'),
   defaultFilterFrequency: 19000,
   minFilterFrequency: 60,
-  maxFilterFrequency: computed.oneWay('defaultFilterFrequency').readOnly()
+  maxFilterFrequency: computed.oneWay('defaultFilterFrequency').readOnly(),
+  isFilterSame: computed('defaultFilterFrequency', 'filterFrequency', function() {
+    return this.get('filterFrequency') === this.get('defaultFilterFrequency');
+  }).readOnly(),
+  isFilterManipulated: computed.not('isFilterSame').readOnly()
 });

@@ -2,7 +2,8 @@
   {{#knob-component
     value=model.volume
     min=0
-    step=0.01
+    step=0.001
+    onRelease='volumeUpdated'
     max=0.99}}
     <i class='{{model.volumeIconClass}}'></i>
   {{/knob-component}}

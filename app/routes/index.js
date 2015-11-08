@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Stem from 'juniper/models/stem';
+const { run } = Ember;
 
 export default Ember.Route.extend({
   model(params) {
@@ -21,12 +22,20 @@ export default Ember.Route.extend({
     const transport = controller.get('transport');
 
     transport.set('stems', model);
-    transport.send('play');
+    run.later(() => transport.send('play'), 400);
   },
 
   actions: {
     toggleStem(stem) {
       stem.toggleProperty('on');
+    },
+
+    updateUrl() {
+      const stems = this.get('controller.onStems');
+      const ids = Stem.urlEncodeIds(stems);
+      const stemData = Stem.urlEncodeData(stems);
+      let queryParams = { stemData, ids };
+      this.transitionTo({ queryParams });
     }
   }
 });

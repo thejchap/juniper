@@ -4,13 +4,13 @@
 </div>
 
 <div class="bulb-controls">
-  <a href="#" class='bulb-control filter' {{action 'showFilterModal' bubbles=false}}>
+  <a href="#" class='bulb-control filter {{if stem.isFilterManipulated "active"}}' {{action 'showFilterModal' bubbles=false}}>
     <i class='ion-erlenmeyer-flask'></i>
   </a>
-  <a href="#" class='bulb-control distortion' {{action 'showDistortionModal' bubbles=false}}>
+  <a href="#" class='bulb-control distortion {{if stem.isDistortionManipulated "active"}}' {{action 'showDistortionModal' bubbles=false}}>
     <i class='ion-nuclear'></i>
   </a>
-  <a href="#" class='bulb-control volume' {{action 'showVolumeModal' bubbles=false}}>
+  <a href="#" class='bulb-control volume {{if stem.isVolumeManipulated "active"}}' {{action 'showVolumeModal' bubbles=false}}>
     <i class='{{stem.volumeIconClass}}'></i>
   </a>
   <a href="#" class='bulb-control reverse {{if stem.isReversed "active"}}' {{action 'toggleReverse' bubbles=false}}>

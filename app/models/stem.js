@@ -245,8 +245,17 @@ const Stem = DS.Model.extend(
       return this._super(propName);
     }
 
-    return this.get('volume') !== ENV.APP.DEFAULT_VOLUME;
+    return this.get('isVolumeManipulated');
   },
+
+  defaultVolume: computed(function() {
+    return ENV.APP.DEFAULT_VOLUME;
+  }).readOnly(),
+
+  isVolumeManipulated: computed.not('isVolumeSame').readOnly(),
+  isVolumeSame: computed('volume', 'defaultVolume', function() {
+    return this.get('volume') === this.get('defaultVolume');
+  }),
 
   /**
    * @public
@@ -362,6 +371,10 @@ const Stem = DS.Model.extend(
 Stem.reopenClass({
   FIXTURES: ENV.APP.STEM_FIXTURES,
 
+  IDS_DELIMITER: '_',
+
+  IDS_KV_DELIMITER: '-',
+
   PERSISTENT_PROPS: {
     volume: {
       id: 1,
@@ -391,14 +404,16 @@ Stem.reopenClass({
 
     let len;
     let str = '';
+    const dash = this.IDS_KV_DELIMITER;
+    const under = this.IDS_DELIMITER;
 
     collection.forEach((record) => {
       len = (record.get('encodedState.length') || 0).toString();
 
       if (len > 0) {
-        str = `${str}${record.get('id')}-${len}_`;
+        str = `${str}${record.get('id')}${dash}${len}${under}`;
       } else {
-        str = `${str}${record.get('id')}_`;
+        str = `${str}${record.get('id')}${under}`;
       }
     });
 
@@ -411,14 +426,14 @@ Stem.reopenClass({
       return [];
     }
 
-    const tuples = str.split('_');
+    const tuples = str.toString().split(this.IDS_DELIMITER);
 
     let id;
     let len;
     let result = [];
 
     tuples.forEach((tuple) => {
-      [id, len] = tuple.split('-');
+      [id, len] = tuple.split(this.IDS_KV_DELIMITER);
 
       result.push({
         id: parseInt(id, 10),

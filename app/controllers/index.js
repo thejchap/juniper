@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     ids: 'i'
   },
 
-  ids: null,
+  ids: '8',
 
   stemData: null,
 
@@ -16,13 +16,8 @@ export default Ember.Controller.extend({
 
   onStems: computed.filterBy('model', 'on', true).readOnly(),
 
-  redirectOnPropChanges: observer('model.@each.encodedState', 'onStems.@each.length', function() {
-    const stems = this.get('onStems');
-    const ids = Stem.urlEncodeIds(stems);
-    const stemData = Stem.urlEncodeData(stems);
-    let queryParams = { stemData, ids };
-
-    run.next(() => this.transitionToRoute({ queryParams }));
+  redirectOnToggles: observer('model.@each.isReversed', 'model.@each.on', function() {
+    run.next(() => this.send('updateUrl'));
   }),
 
   actions: {

@@ -4,6 +4,10 @@ export default Ember.Controller.extend({
   actions: {
     close() {
       this.send('removeModal');
+    },
+
+    distortionUpdated() {
+      this.send('updateUrl');
     }
   }
 });

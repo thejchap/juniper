@@ -53,7 +53,7 @@ export default Ember.Mixin.create({
       return this._super(propName);
     }
 
-    return this.get(propName) !== this.get('defaultDistortionAmount');
+    return this.get('isDistortionManipulated');
   },
 
   distortionAmount: computed('_distortionAmount', {
@@ -68,6 +68,11 @@ export default Ember.Mixin.create({
       return freq;
     }
   }),
+
+  isDistortionSame: computed('distortionAmount', 'defaultDistortionAmount', function() {
+    return this.get('distortionAmount') === this.get('defaultDistortionAmount');
+  }),
+  isDistortionManipulated: computed.not('isDistortionSame').readOnly(),
 
   createNodes() {
     this._super();
