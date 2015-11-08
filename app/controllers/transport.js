@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ENV from 'sprh-bulbs/config/environment';
+import ENV from 'juniper/config/environment';
 const { computed } = Ember;
 
 export default Ember.Controller.extend({

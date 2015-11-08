@@ -4,7 +4,7 @@ var fs = require('fs');
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'sprh-bulbs',
+    modulePrefix: 'juniper',
     environment: environment,
     baseURL: '/',
     locationType: 'hash',

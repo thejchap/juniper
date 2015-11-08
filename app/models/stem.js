@@ -1,10 +1,10 @@
 import DS from 'ember-data';
-import ENV from 'sprh-bulbs/config/environment';
+import ENV from 'juniper/config/environment';
 import Ember from 'ember';
-import Reversable from 'sprh-bulbs/mixins/stem/reversable';
-import Distortable from 'sprh-bulbs/mixins/stem/distortable';
-import Filterable from 'sprh-bulbs/mixins/stem/filterable';
-import { zeroPad } from 'sprh-bulbs/helpers/zero-pad';
+import Reversable from 'juniper/mixins/stem/reversable';
+import Distortable from 'juniper/mixins/stem/distortable';
+import Filterable from 'juniper/mixins/stem/filterable';
+import { zeroPad } from 'juniper/helpers/zero-pad';
 
 const { computed, run, assert } = Ember;
 const { attr } = DS;

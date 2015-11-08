@@ -1,4 +1,4 @@
-# Square Peg Round Hole - Juniper (LP)
+# Juniper (Square Peg Round Hole LP2) Remix App
 
 ## App
 
@@ -28,7 +28,7 @@ TODO
 
 #### Controls
 
-Ember 2.0's computed getters and setters make manipulating the various Web Audio properties very clean while also allowing other aspects of the app to monitor those values for changes (ie the position of the volume knob, changing the volume speaker icon based on how loud the sound is, etc)
+Ember 2's computed getters and setters make manipulating the various Web Audio properties very clean while also allowing other aspects of the app to monitor those values for changes (ie the position of the volume knob, changing the volume speaker icon based on how loud the sound is, etc)
 
 Here is a very simple example with lots of code omitted:
 

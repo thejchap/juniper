@@ -1,7 +1,7 @@
 {
-  "name": "sprh-bulbs",
+  "name": "juniper",
   "version": "0.0.0",
-  "description": "Small description for sprh-bulbs goes here",
+  "description": "Square Peg Round Hole LP2 remix app",
   "private": true,
   "directories": {
     "doc": "doc",

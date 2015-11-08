@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Stem from 'sprh-bulbs/models/stem';
+import Stem from 'juniper/models/stem';
 
 export default Ember.Route.extend({
   model(params) {
