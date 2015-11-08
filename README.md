@@ -24,30 +24,92 @@ their remixes without the app requiring any back-end database or persistent stor
 The final, encoded mix looks like this in the URL:
 
 ```
-http://squarepegroundhole.me/#/?i=01100216031704740405&s=9007199254740991
+http://squarepegroundhole.me/#/?i=7-2_9-8_29&s=798bcd8a74
 ```
 
-- `i` parameter is a set of digits containing metadata about which sounds (stems) have been manipulated,
-and how long each of their base-16 encoded 'state' strings is. The actual state of each bulb is then stored in the `state`param.
-For example, in the above URL:
-  - stem 1's encoded state is 10 characters long
-  - stem 2's encoded state is 16 characters long
-  - stem 3's encoded state is 14 characters long
+##### i parameters
+The `i` parameter is an underscore-delimited series of pairs containing the IDs of the 'on' sounds, as well as
+the length of that bulb's base-16 encoded 'state' string (these are all concatenated together and make up the `s` parameter.
+This allows us to store information about each bulb's volume/distortion/etc and keep the query string as short as possible.
 
-- `s` parameter is a group of strings concatenated together, each of which represents the state of a particular
-stem referenced in the `i` parameter
+In this example: `5-3_7-3_9-6_23`
+  - Sound 7 is on and has a 2 character state string
+  - Sound 9 is on and has an 8 character state string
+  - Sound 29 is on (nothing else has been manipulated on this sound so the 2nd number (and state string) is omitted)
 
-The hex string is decoded to an integer that adheres to the following format:
+##### s parameter
+The `s` parameter is a group of base-16 encoded strings containing information about the changes made to each sound.
+Because we know the length of each of these strings, we can break this parameter apart and decode the data for each
+sound.
 
+In this example:
 ```
-[3][153][75][36][00421]
- |   |    |
- |   |    |
- |   |    Value of volume parameter
- |   |
- |   Which parameters are being persisted, if less than 4 (1 = reverse, 2 = volume, 3 = filter, 4 = distortion)
+         Sound 9
+         |
+[79][8bcd8a74]
+  |
+  Sound 7
+```
+
+Each string is then converted to base 10 and parsed out according to the following protocol (from left to right):
+- Number of properties manipulated
+  - 1 digit
+  - Min: 1, max: 4
+- Which properties manipulated
+  - Number of digits = number from the first digit
+  - Possible values:
+    - 1 - `volume`
+    - 2 - `isReversed`
+    - 3 - `distortionAmount`
+    - 4 - `filterFrequency`
+- Values of those properties
+  - Number of digits = number of properties manipulated * length of each each property
+    - `volume`
+      - 2 digits
+      - Min: 0, max: 99
+    - `isReversed`
+      - 1 digit
+      - Min: 0, max: 1
+    - `distortionAmount`
+      - 2 digits
+      - Min: 0, max: 99
+    - `filterFrequency`
+      - 5 digits
+      - Min: 60, max: 19000
+
+- In this example:
+```
+         Sound 9
+         |
+[79][8bcd8a74]
+  |
+  Sound 7
+
+# Sound 7
+- Original (Base 16): 79
+- Decoded (Base 10): 121
+
+    which property: isReversed
+    |
+[1][2][1]
+ |     |
+ |     property value: on
  |
- How many parameters are being persisted (0-4)
+ 1 property has been manipulated
+
+# Sound 8
+- Original (Base 16): 8bcd8a74
+- Decoded (Base 10): 2345503348
+
+    which properties: distortionAmount, filterFrequency
+    |
+    |         filterFrequency: 03348 (3.348kHz)
+    |         |
+[2][34][55][03348]
+ |      |
+ |      distortionAmount: 55 (55%)
+ |
+ 2 properties have been manipulated
 ```
 
 ## Prerequisites
