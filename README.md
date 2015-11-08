@@ -5,7 +5,7 @@
 ### Overview
 
 This is an single-page Javascript app that makes heavy use of the Web Audio API to allow visitors
-to create their own remixes of songs from Square Peg Round Hole's album Juniper.
+to create their own remixes of songs from Square Peg Round Hole's album Juniper. The app is built on the Ember javascript framework.
 
 Users can take the following actions with each sound:
 - Mute/Unmute
@@ -13,6 +13,51 @@ Users can take the following actions with each sound:
 - Control volume
 - Add distortion
 - Add a filter
+
+
+### Audio
+
+The app uses the Web Audio API (https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) to achieve the following:
+- Schedule sample playback with solid timing
+- Provide filters that the samples are routed through (distortion and low pass filter)
+- Provide gain/volume controls and signal path
+
+
+#### Transport
+TODO
+
+#### Controls
+
+Ember 2.0's computed getters and setters make manipulating the various Web Audio properties very clean while also allowing other aspects of the app to monitor those values for changes (ie the position of the volume knob, changing the volume speaker icon based on how loud the sound is, etc)
+
+Here is a very simple example with lots of code omitted:
+
+```es6
+// app/models/stem.js
+
+import Ember from 'ember';
+import DS from 'ember-data';
+const { computed } = Ember;
+
+export default DS.Model.extend({
+  _volume: 0.75,
+  
+  volume: computed('_volume', {
+    get() {
+      return this.get('_volume');
+    },
+    
+    set(_key, volume) {
+      this.set('_volume', volume);
+      
+      // where this.get('audioGainNode') is a GainNode object
+      this.set('audioGainNode.gain.value', volume);
+      
+      return volume;
+    }
+  })
+});
+```
 
 ### Persistence
 
