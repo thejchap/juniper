@@ -4,8 +4,8 @@ const { observer, computed, run } = Ember;
 
 export default Ember.Controller.extend({
   queryParams: {
-    ids: 'i',
-    stemData: 's'
+    stemData: 's',
+    ids: 'i'
   },
 
   ids: null,
