@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { computed, run, observer } = Ember;
+const { computed, observer } = Ember;
 
 export default Ember.Mixin.create({
   distortionOverSample: '4x',
@@ -11,7 +11,7 @@ export default Ember.Mixin.create({
     const curve = new Float32Array(samples);
     let x;
 
-    for (let i = 0, l = samples; i < l; i ++) {
+    for (let i = 0, l = samples; i < l; i++) {
       x = i * 2 / samples - 1;
       curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
     }

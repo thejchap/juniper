@@ -9,6 +9,12 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/bootstrap/js/transition.js');
   app.import(app.bowerDirectory + '/bootstrap/js/modal.js');
   app.import(app.bowerDirectory + '/jquery-knob/dist/jquery.knob.min.js');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-arrows-plain-buttons.css');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-arrows.css');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-dark.css');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-default.css');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-square-dark.css');
+  app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-square.css');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

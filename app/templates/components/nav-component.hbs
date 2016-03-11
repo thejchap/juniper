@@ -1,62 +1,22 @@
 <div class="container-fluid">
-  <ul class="nav navbar-nav actions-nav mix-actions">
-    <li>
-      <a href="#" class="hover-btn">
-        <div class='hover-btn-inner'>
-          <i class='ion-ios-settings-strong'></i>
-        </div>
+  <a class="btn btn-primary navbar-btn preorder-btn" id='preorder-btn' href="http://spr.tn/juniperlp" target='_blank'>
+    Preorder - $7.99
+  </a>
+  <div class="navbar-header">
+    <a href="http://juniper.squarepegroundhole.me" class='navbar-brand'>
+      Square Peg Round Hole |
+      <span class="juniper">Juniper</span>
+    </a>
+  </div>
+  <div class="pull-right">
+      <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn'>
+        <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
       </a>
-    </li>
-    <li>
-      <a href="#" {{action 'togglePlaying'}} class='sub-action-btn'>
-        <div class="sub-action-btn-inner">
-          <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
-        </div>
+      <a href="#" class='btn btn-primary navbar-btn' {{action 'resetMix'}}>
+        <i class='ion-refresh'></i>
       </a>
-    </li>
-    <li>
-      <a href="#" class='sub-action-btn' {{action 'resetMix'}}>
-        <div class="sub-action-btn-inner">
-          <i class='ion-refresh'></i>
-        </div>
+      <a href="#" class='btn btn-primary navbar-btn' {{action 'showShareModal'}}>
+        <i class='ion-android-share-alt'></i>
       </a>
-    </li>
-  </ul>
-  <ul class="nav navbar-nav pull-right actions-nav share-actions">
-    <li>
-      <a href="#" class='sub-action-btn' {{action 'post'}}>
-        <div class="sub-action-btn-inner">
-          <i class='ion-social-facebook'></i>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#" class='sub-action-btn' {{action 'tweet'}}>
-        <div class="sub-action-btn-inner">
-          <i class='ion-social-twitter'></i>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#" class='sub-action-btn' {{action 'pin'}}>
-        <div class="sub-action-btn-inner">
-          <i class='ion-social-pinterest'></i>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#" class='sub-action-btn' {{action 'email'}}>
-        <div class="sub-action-btn-inner">
-          <i class='ion-email'></i>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#" class='hover-btn'>
-        <div class="hover-btn-inner">
-          <i class='ion-android-share-alt'></i>
-        </div>
-      </a>
-    </li>
-  </ul>
+  </div>
 </div>

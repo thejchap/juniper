@@ -16,7 +16,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-      SKIP_AUDIO: false,
+      SKIP_AUDIO: true,
       CDN_URL: '//sprh.s3.amazonaws.com/bulbs',
       TEMPO: 164.0,
       BULB_VARIANTS: 4,
@@ -52,10 +52,11 @@ module.exports = function(environment) {
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
     'script-src': "'self'",
-    'font-src': "'self' code.ionicframework.com",
+    'child-src': "'self'",
+    'font-src': "'self' code.ionicframework.com fonts.gstatic.com",
     'connect-src': "'self' sprh.s3.amazonaws.com",
-    'img-src': "'self' sprh.s3.amazonaws.com",
-    'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com",
+    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com",
+    'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com fonts.googleapis.com",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }
 

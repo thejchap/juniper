@@ -26,8 +26,8 @@ export default Ember.Controller.extend({
 
       if (this.get('progress') === 100) {
         run.next(() => {
-          Ember.$('.modal').modal('hide')
-          Ember.$('body').addClass('audio-loaded')
+          Ember.$('.modal').modal('hide');
+          Ember.$('body').addClass('audio-loaded');
         });
       }
     }));
