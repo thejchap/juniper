@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import Stem from 'juniper/models/stem';
 const { observer, computed, run } = Ember;
 
 export default Ember.Controller.extend({

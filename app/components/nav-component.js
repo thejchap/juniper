@@ -1,7 +1,10 @@
 import Ember from 'ember';
-const { on } = Ember;
+import config from 'juniper/config/environment';
+const { on, inject } = Ember;
 
 export default Ember.Component.extend({
+  metrics: inject.service(),
+  preorderLink: config.APP.LINKS.PREORDER,
   togglePlaying: 'togglePlaying',
   tagName: 'nav',
   classNames: ['navbar', 'navbar-default', 'navbar-fixed-top'],
@@ -29,15 +32,29 @@ export default Ember.Component.extend({
   actions: {
     togglePlaying() {
       this.get('transport').send('togglePlaying');
+
+      let isPlaying = this.get('transport.isPlaying');
+
+      this.get('metrics').trackEvent({
+        category: 'Transport',
+        action: isPlaying ? 'Play' : 'Pause'
+      });
     },
+
+    preorder() {
+      window.open(this.get('preorderLink'), '_blank');
+
+      this.get('metrics').trackEvent({
+        category: 'Preorder Button',
+        action: 'Click'
+      });
+    },
+
     post() {
       alert('I will post to fb');
     },
     tweet() {
       alert('I will tweet');
-    },
-    pin() {
-      alert('I will pin');
     },
     email() {
       alert('I will email');

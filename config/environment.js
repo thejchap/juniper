@@ -15,7 +15,18 @@ module.exports = function(environment) {
       }
     },
 
+    metricsAdapters: [{
+      name: 'GoogleAnalytics',
+      config: {
+        id: 'UA-75015010-1'
+      }
+    }],
+
     APP: {
+      JZ7: '5bd51ce1d9283d51f15030d0f072b04507a5f5df',
+      LINKS: {
+        PREORDER: 'http://bit.ly/1RYlTKn'
+      },
       SKIP_AUDIO: true,
       CDN_URL: '//sprh.s3.amazonaws.com/bulbs',
       TEMPO: 164.0,
@@ -51,11 +62,11 @@ module.exports = function(environment) {
 
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
-    'script-src': "'self'",
+    'script-src': "'self' www.google-analytics.com",
     'child-src': "'self'",
     'font-src': "'self' code.ionicframework.com fonts.gstatic.com",
-    'connect-src': "'self' sprh.s3.amazonaws.com",
-    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com",
+    'connect-src': "'self' sprh.s3.amazonaws.com www.google-analytics.com",
+    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com www.google-analytics.com",
     'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com fonts.googleapis.com",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }

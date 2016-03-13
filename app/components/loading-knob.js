@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { on, run } = Ember;
+const { on, run, observer } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['loading-knob'],
@@ -14,11 +14,13 @@ export default Ember.Component.extend({
   min: 0,
   max: 100,
 
+  // jscs:disable disallowPrototypeExtension
   changeValue: on('init', function() {
     const progress = this.get('progress');
     const cur = this.get('animatedProgress') || progress;
     this.animateValue(cur, progress);
   }).observes('progress'),
+  // jscs:enable disallowPrototypeExtension
 
   animateValue(from, to) {
     const progress = this;
@@ -31,7 +33,7 @@ export default Ember.Component.extend({
     }).promise().then(() => progress.set('animatedProgress', to));
   },
 
-  animatedProgressChanged: function() {
+  animatedProgressChanged: observer('animatedProgress', function() {
     const $el = this.$('.knob');
 
     if (!$el) {
@@ -39,7 +41,7 @@ export default Ember.Component.extend({
     }
 
     $el.val(this.get('animatedProgress')).trigger('change');
-  }.observes('animatedProgress'),
+  }),
 
   initKnob: on('didInsertElement', function() {
     const opts = this.getProperties(

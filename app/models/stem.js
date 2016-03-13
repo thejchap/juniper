@@ -24,6 +24,12 @@ const Stem = DS.Model.extend(
 
   /**
    * @public
+   * @property name
+   */
+  name: null,
+
+  /**
+   * @public
    * @property reverseFileName
    * @type {String}
    * @description Name of the reversed MP3 file hosted on the CDN

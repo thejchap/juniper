@@ -5,6 +5,8 @@ const { inject, run } = Ember;
 export default Ember.Route.extend({
   tour: inject.service(),
 
+  metrics: inject.service(),
+
   model(params) {
     const loadStems = this.store.findAll('stem');
     const meta = Stem.urlDecodeIds(params.ids);
@@ -42,8 +44,23 @@ export default Ember.Route.extend({
 
     tour.set('modal', true);
 
-    tour.on('complete', () => this.get('controller.transport').send('play'));
-    tour.on('cancel', () => this.get('controller.transport').send('play'));
+    tour.on('complete', () => {
+      this.get('controller.transport').send('play')
+
+      this.get('metrics').trackEvent({
+        category: 'Tour',
+        action: 'Complete'
+      });
+    });
+
+    tour.on('cancel', () => {
+      this.get('controller.transport').send('play')
+
+      this.get('metrics').trackEvent({
+        category: 'Tour',
+        action: 'Cancel'
+      });
+    });
 
     tour.set('steps', [{
       id: 'welcome',
