@@ -129,6 +129,10 @@ export default Ember.Route.extend({
       stem.toggleProperty('on');
     },
 
+    showShareModal() {
+      this.send('showModal', 'modals/share');
+    },
+
     updateUrl() {
       const stems = this.get('controller.onStems');
       const ids = Stem.urlEncodeIds(stems);

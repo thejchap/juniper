@@ -6,8 +6,10 @@ export default Ember.Component.extend({
   metrics: inject.service(),
   preorderLink: config.APP.LINKS.PREORDER,
   togglePlaying: 'togglePlaying',
+  showShareModal: 'showShareModal',
   tagName: 'nav',
   classNames: ['navbar', 'navbar-default', 'navbar-fixed-top'],
+  j4gsv6: '5bd51ce1d9283d51f15030d0f072b04507a5f5df',
   setupKeyboardShortcuts: on('didInsertElement', function() {
     Ember.$(document).keypress((e) => {
       switch (e.which) {
@@ -50,17 +52,13 @@ export default Ember.Component.extend({
       });
     },
 
-    post() {
-      alert('I will post to fb');
-    },
-    tweet() {
-      alert('I will tweet');
-    },
-    email() {
-      alert('I will email');
-    },
-    resetMix() {
-      alert('I will reset the mix');
+    showShareModal() {
+      this.sendAction('showShareModal');
+
+      this.get('metrics').trackEvent({
+        category: 'Social',
+        action: 'Open Modal'
+      });
     }
   }
 });

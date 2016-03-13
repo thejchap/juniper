@@ -1,14 +1,16 @@
-{{nav-component transport=transport}}
+<div class="hidden-xs">
+  {{nav-component transport=transport}}
 
-<div class="bulbs-wrapper container-fluid {{if transport.isPlaying 'is-playing'}}">
-  {{#masonry-grid columnWidth='.grid-sizer'}}
-    <div class="grid-sizer"></div>
-    {{#each model as |stem|}}
-      {{sprh-bulb stem=stem}}
-    {{/each}}
-  {{/masonry-grid}}
+  <div class="bulbs-wrapper container-fluid {{if transport.isPlaying 'is-playing'}}">
+    {{#masonry-grid columnWidth='.grid-sizer'}}
+      <div class="grid-sizer"></div>
+      {{#each model as |stem|}}
+        {{sprh-bulb stem=stem}}
+      {{/each}}
+    {{/masonry-grid}}
+  </div>
+
+  <a class="spartan-logo" href='http://spr.tn/juniperlp' target='_blank'>
+    <img src="https://s3.amazonaws.com/sprh/bulbs/img/spartan-records-logo.png" alt="Spartan Records" />
+  </a>
 </div>
-
-<a class="spartan-logo" href='http://spr.tn/juniperlp' target='_blank'>
-  <img src="https://s3.amazonaws.com/sprh/bulbs/img/spartan-records-logo.png" alt="Spartan Records" />
-</a>

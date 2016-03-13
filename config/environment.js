@@ -23,7 +23,6 @@ module.exports = function(environment) {
     }],
 
     APP: {
-      JZ7: '5bd51ce1d9283d51f15030d0f072b04507a5f5df',
       LINKS: {
         PREORDER: 'http://bit.ly/1RYlTKn'
       },

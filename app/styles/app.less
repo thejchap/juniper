@@ -3,6 +3,8 @@
 
 @font-family-sans-serif: 'Open Sans', Helvetica, arial, sans-serif;
 @brand-primary: #d6ac79;
+@brand-facebook: #3b5998;
+@brand-twitter: #55acee;
 @navbar-default-bg: transparent;
 @navbar-default-link-color: @brand-primary;
 @navbar-default-link-hover-color: #ffffff;
@@ -180,4 +182,50 @@ body.audio-loaded {
 
 #shepherdOverlay {
   opacity: @modal-backdrop-opacity;
+}
+
+.share-modal-content {
+  h3 {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+  }
+  .list-group, .list-group-item {
+    border: none;
+    background: transparent;
+    padding: 0px;
+  }
+  a.btn {
+    border-radius: @border-radius-base;
+    font-size: 11px;
+    height: auto;
+    width: 100%;
+    transition: 0.5s all ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+
+    &.btn-twitter {
+      border-color: @brand-twitter;
+      color: @brand-twitter;
+    }
+
+    &.btn-email {
+      border-color: @brand-primary;
+      color: @brand-primary;
+    }
+
+    &.btn-facebook {
+      border-color: @brand-facebook;
+      color: @brand-facebook;
+    }
+
+    &:hover {
+      color: white;
+      border-color: white;
+    }
+  }
 }
