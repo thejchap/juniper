@@ -3,7 +3,8 @@
     "document",
     "AudioContext",
     "window",
-    "Promise"
+    "Promise",
+    "FB"
   ],
   "browser": true,
   "boss": true,

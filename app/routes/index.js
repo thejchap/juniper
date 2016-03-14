@@ -45,7 +45,7 @@ export default Ember.Route.extend({
     tour.set('modal', true);
 
     tour.on('complete', () => {
-      this.get('controller.transport').send('play')
+      this.get('controller.transport').send('play');
 
       this.get('metrics').trackEvent({
         category: 'Tour',
@@ -54,7 +54,7 @@ export default Ember.Route.extend({
     });
 
     tour.on('cancel', () => {
-      this.get('controller.transport').send('play')
+      this.get('controller.transport').send('play');
 
       this.get('metrics').trackEvent({
         category: 'Tour',

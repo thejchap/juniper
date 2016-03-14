@@ -26,7 +26,7 @@ module.exports = function(environment) {
       LINKS: {
         PREORDER: 'http://bit.ly/1RYlTKn'
       },
-      SKIP_AUDIO: true,
+      SKIP_AUDIO: false,
       CDN_URL: '//sprh.s3.amazonaws.com/bulbs',
       TEMPO: 164.0,
       BULB_VARIANTS: 4,

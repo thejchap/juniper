@@ -1,0 +1,20 @@
+<ul class="list-group">
+  {{#if sl}}
+    <li class="list-group-item">
+      <a href="#" class='btn btn-raw' {{action 'copy'}}>
+        {{sl}}
+      </a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" class='btn btn-facebook' {{action 'facebook'}}>Share</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" class='btn btn-twitter' {{action 'twitter'}}>Tweet</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" class='btn btn-email' {{action 'email'}}>Email</a>
+    </li>
+  {{else}}
+    <li class="list-group-item"><a href="#" class='btn btn-loading'>Loading...</a></li>
+  {{/if}}
+</ul>

@@ -16,7 +16,8 @@ export default Ember.Component.extend({
 
   // jscs:disable disallowPrototypeExtension
   changeValue: on('init', function() {
-    const progress = this.get('progress');
+    let progress = this.get('progress');
+
     const cur = this.get('animatedProgress') || progress;
     this.animateValue(cur, progress);
   }).observes('progress'),

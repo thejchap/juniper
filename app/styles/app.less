@@ -213,9 +213,25 @@ body.audio-loaded {
       color: @brand-twitter;
     }
 
+    &.btn-loading {
+      border-color: transparent;
+      color: #777;
+    }
+
     &.btn-email {
       border-color: @brand-primary;
       color: @brand-primary;
+    }
+
+    &.btn-raw {
+      border-color: transparent;
+      color: white;
+      cursor: default;
+      margin-bottom: 40px;
+
+      &:hover {
+        border-color: transparent;
+      }
     }
 
     &.btn-facebook {
@@ -231,11 +247,18 @@ body.audio-loaded {
 }
 
 .ember-notify {
+  font-weight: bold;
+  text-transform: uppercase;
+
   &.alert-danger {
     background: transparent;
     border: 2px solid @brand-danger;
     color: @brand-danger;
-    font-weight: bold;
-    text-transform: uppercase;
+  }
+
+  &.alert-success {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
   }
 }
