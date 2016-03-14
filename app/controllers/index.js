@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import config from 'juniper/config/environment';
-const { observer, computed, run } = Ember;
+const { observer, computed, run, inject } = Ember;
 
 export default Ember.Controller.extend({
   queryParams: {
@@ -14,11 +14,41 @@ export default Ember.Controller.extend({
 
   stemData: null,
 
-  transport: Ember.inject.controller(),
+  transport: inject.controller(),
+
+  metrics: inject.service(),
+
+  preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
+
+  preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
 
   onStems: computed.filterBy('model', 'on', true).readOnly(),
 
   redirectOnToggles: observer('model.@each.isReversed', 'model.@each.on', function() {
     run.next(() => this.send('updateUrl'));
-  })
+  }),
+
+  actions: {
+    preorderDigital() {
+      window.open(this.get('preorderDigitalLink'), '_blank');
+
+      this.get('metrics').trackEvent({
+        category: 'Preorder',
+        action: 'Click',
+        label: 'Digital',
+        value: 8
+      });
+    },
+
+    preorderVinyl() {
+      window.open(this.get('preorderVinylLink'), '_blank');
+
+      this.get('metrics').trackEvent({
+        category: 'Preorder',
+        action: 'Click',
+        label: 'Vinyl',
+        value: 25
+      });
+    }
+  }
 });

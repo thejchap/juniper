@@ -24,7 +24,10 @@ module.exports = function(environment) {
 
     APP: {
       LINKS: {
-        PREORDER: 'http://bit.ly/1RYlTKn'
+        PREORDER: {
+          ITUNES: 'http://apple.co/1YSEuuk',
+          VINYL: 'http://bit.ly/1M2XbcA'
+        }
       },
       SKIP_AUDIO: false,
       CDN_URL: '//sprh.s3.amazonaws.com/bulbs',

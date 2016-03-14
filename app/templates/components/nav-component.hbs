@@ -1,19 +1,24 @@
 <div class="container-fluid">
-  <a class="btn btn-primary navbar-btn preorder-btn" id='preorder-btn' href="{{preorderLink}}" target='_blank' {{action 'preorder'}}>
-    Preorder - $7.99
+  <p class='navbar-text preorder-text hidden-sm hidden-xs'>Preorder</p>
+  <a class="btn btn-primary navbar-btn preorder-btn hidden-xs" href="{{preorderDigitalLink}}" target='_blank' {{action 'preorderDigital'}}>
+    iTunes
+  </a>
+  <a class="btn btn-primary navbar-btn preorder-btn hidden-xs" href="{{preorderVinylLink}}" target='_blank' {{action 'preorderVinyl'}}>
+    Vinyl
   </a>
   <div class="navbar-header">
     <a href="http://juniper.squarepegroundhole.me" class='navbar-brand'>
       Square Peg Round Hole |
       <span class="juniper">Juniper</span>
+      <br />
+      <div class="available-text">
+        New Album Available March 25th
+      </div>
     </a>
   </div>
-  <div class="pull-right">
+  <div class="pull-right hidden-xs">
       <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn'>
         <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
-      </a>
-      <a href="#" class='btn btn-primary navbar-btn' {{action 'resetMix'}}>
-        <i class='ion-refresh'></i>
       </a>
       <a href="#" class='btn btn-primary navbar-btn' {{action 'showShareModal'}}>
         <i class='ion-android-share-alt'></i>

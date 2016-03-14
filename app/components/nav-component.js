@@ -4,7 +4,8 @@ const { on, inject } = Ember;
 
 export default Ember.Component.extend({
   metrics: inject.service(),
-  preorderLink: config.APP.LINKS.PREORDER,
+  preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
+  preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
   togglePlaying: 'togglePlaying',
   showShareModal: 'showShareModal',
   tagName: 'nav',
@@ -39,15 +40,6 @@ export default Ember.Component.extend({
       this.get('metrics').trackEvent({
         category: 'Transport',
         action: isPlaying ? 'Play' : 'Pause'
-      });
-    },
-
-    preorder() {
-      window.open(this.get('preorderLink'), '_blank');
-
-      this.get('metrics').trackEvent({
-        category: 'Preorder Button',
-        action: 'Click'
       });
     },
 

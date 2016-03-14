@@ -32,7 +32,6 @@ export default Ember.Component.extend({
   },
 
   _f4bq() {
-    //let longUrl = window.location.href;
     let longUrl = `http://juniper.squarepegroundhole.me/${window.location.hash}`;
     let self = this;
 
@@ -69,7 +68,7 @@ export default Ember.Component.extend({
     email() {
       this._track('Email');
       let text = window.encodeURI(`Check out my Square Peg Round Hole "Juniper" Remix! ${this.get('sl')}`);
-      let subject = window.encodeURI('My Juniper Remix');
+      let subject = window.encodeURI('My Square Peg Round Hole "Juniper" Remix');
 
       window.open(`mailto:?body=${text}&subject=${subject}`);
       this._successMsg();

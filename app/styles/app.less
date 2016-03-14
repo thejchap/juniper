@@ -67,6 +67,18 @@ body.audio-loaded {
   border: none;
   opacity: 0;
 
+  .preorder-text {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ccc;
+  }
+
+  .available-text {
+    font-size: 10px;
+    margin-top: 5px;
+    color: #ccc;
+  }
+
   .btn-primary, .preorder-btn {
     font-weight: bold;
     transition: all 0.5s ease;
@@ -101,7 +113,8 @@ body.audio-loaded {
 .spartan-logo {
   position: absolute;
   bottom: 15px;
-  right: 30px;
+  left: 50%;
+  margin-left: -29px;
   z-index: 1000;
   opacity: 0.2;
   height: 60px;
@@ -139,7 +152,7 @@ body.audio-loaded {
 }
 
 .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
-  background: transparent;
+  background: rgba(0,0,0,0.75);
 }
 
 .shepherd-element.shepherd-theme-dark {
@@ -260,5 +273,98 @@ body.audio-loaded {
     background: transparent;
     border: 2px solid white;
     color: white;
+  }
+}
+
+@keyframes spinner {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(360deg) }
+}
+
+.spinner {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: 50%;
+  left: 50%;
+  margin-left: -60px;
+  margin-top: -60px;
+
+  &:after, &:before {
+    content: '';
+    position: fixed;
+    border: 2px solid @brand-primary;
+    width: 120px;
+    height: 120px;
+  }
+
+  &:after {
+    animation: spinner 2.5s cubic-bezier(0.420, 0.665, 0.680, 0.360) infinite;
+    border-color: white;
+  }
+
+  &:before {
+    border-radius: 88px;
+    width: 176px;
+    height: 176px;
+    margin-left: -28px;
+    margin-top: -28px;
+  }
+
+  .percent {
+    color: @brand-primary;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+}
+
+.spinner-modal .modal-content {
+  text-align: left;
+}
+
+.mobile-container {
+  .preorder-btn {
+    background: transparent;
+    border-radius: 0px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid @brand-primary;
+    border-color: @brand-primary;
+    color: @brand-primary;
+    transition: all 0.5s ease;
+
+    &:hover, &:active {
+      border-color: white;
+      color: white;
+    }
+  }
+
+  h4 {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 15px;
+  }
+
+  .mobile-preorder-btns {
+    margin-top: 45px;
+  }
+
+  p {
+    text-transform: uppercase;
+    text-align: center;
+    color: #ccc;
+    margin-top: 60px;
   }
 }

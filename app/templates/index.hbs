@@ -16,9 +16,8 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
+{{nav-component transport=transport}}
 <div class="hidden-xs">
-  {{nav-component transport=transport}}
-
   <div class="bulbs-wrapper container-fluid {{if transport.isPlaying 'is-playing'}}">
     {{#masonry-grid columnWidth='.grid-sizer'}}
       <div class="grid-sizer"></div>
@@ -27,8 +26,23 @@
       {{/each}}
     {{/masonry-grid}}
   </div>
-
-  <a class="spartan-logo" href='http://spr.tn/juniperlp' target='_blank'>
-    <img src="https://s3.amazonaws.com/sprh/bulbs/img/spartan-records-logo.png" alt="Spartan Records" />
-  </a>
 </div>
+
+<div class="container mobile-container visible-xs">
+  <div class="mobile-preorder-btns">
+    <h4>Preorder</h4>
+    <a href="#" class='btn btn-primary btn-block btn-lg preorder-btn' href="{{preorderDigitalLink}}" target='_blank' {{action 'preorderDigital'}}>
+      iTunes - $7.99
+    </a>
+    <a href="#" class='btn btn-primary btn-block btn-lg preorder-btn' href="{{preorderVinylLink}}" target='_blank' {{action 'preorderVinyl'}}>
+      Vinyl - $24.99
+    </a>
+  </div>
+  <p>
+    Please view this website in a wider browser window to use the remixer.
+  </p>
+</div>
+
+<a class="spartan-logo" href='http://spr.tn/juniperlp' target='_blank'>
+  <img src="https://s3.amazonaws.com/sprh/bulbs/img/spartan-records-logo.png" alt="Spartan Records" />
+</a>
