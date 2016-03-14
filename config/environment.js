@@ -31,11 +31,13 @@ module.exports = function(environment) {
       TEMPO: 164.0,
       BULB_VARIANTS: 4,
       DEFAULT_VOLUME: 0.75,
+      FB_APP_ID: '484220698406686',
       STEM_FIXTURES: JSON.parse(fs.readFileSync(__dirname + '/stems.json', 'utf8'))
     }
   };
 
   if (environment === 'development') {
+    ENV.APP.FB_APP_ID = '523548947807194';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -61,11 +63,12 @@ module.exports = function(environment) {
 
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
-    'script-src': "'self' www.google-analytics.com",
+    'script-src': "'self' www.google-analytics.com connect.facebook.net 'sha256-TZ1d0U/dSrpe8YLo15tVjyV3pS8QTac65pDvOBFh9KI='",
     'child-src': "'self'",
     'font-src': "'self' code.ionicframework.com fonts.gstatic.com",
-    'connect-src': "'self' sprh.s3.amazonaws.com www.google-analytics.com",
-    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com www.google-analytics.com",
+    'frame-src': "'self' staticxx.facebook.com",
+    'connect-src': "'self' sprh.s3.amazonaws.com www.google-analytics.com api-ssl.bitly.com",
+    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com www.google-analytics.com www.facebook.com",
     'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com fonts.googleapis.com",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }

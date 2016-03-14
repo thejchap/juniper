@@ -9,7 +9,6 @@ export default Ember.Component.extend({
   showShareModal: 'showShareModal',
   tagName: 'nav',
   classNames: ['navbar', 'navbar-default', 'navbar-fixed-top'],
-  j4gsv6: '5bd51ce1d9283d51f15030d0f072b04507a5f5df',
   setupKeyboardShortcuts: on('didInsertElement', function() {
     Ember.$(document).keypress((e) => {
       switch (e.which) {

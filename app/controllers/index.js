@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'juniper/config/environment';
 const { observer, computed, run } = Ember;
 
 export default Ember.Controller.extend({
@@ -6,6 +7,8 @@ export default Ember.Controller.extend({
     stemData: 's',
     ids: 'i'
   },
+
+  fbAppId: config.APP.FB_APP_ID,
 
   ids: '8',
 
