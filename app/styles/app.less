@@ -5,7 +5,7 @@
 @brand-primary: #d6ac79;
 @brand-facebook: #3b5998;
 @brand-twitter: #55acee;
-@navbar-default-bg: transparent;
+@navbar-default-bg: rgba(0,0,0,0.5);
 @navbar-default-link-color: @brand-primary;
 @navbar-default-link-hover-color: #ffffff;
 @navbar-default-link-hover-bg: #000;
@@ -36,7 +36,6 @@ body {
   padding-top: @navbar-height;
   padding-bottom: @navbar-height;
   color: white;
-  overflow-y: hidden;
 }
 
 a:focus, a:active {
@@ -119,7 +118,7 @@ body.audio-loaded {
 }
 
 .spartan-logo {
-  position: absolute;
+  position: fixed;
   bottom: 15px;
   left: 50%;
   margin-left: -29px;
