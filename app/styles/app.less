@@ -14,6 +14,8 @@
 @navbar-height: 90px;
 @modal-backdrop-opacity: 0.7;
 @font-size-base: 11px;
+@tooltip-opacity: 1;
+@tooltip-color: white;
 
 @import 'animations';
 @import 'sprh-bulb';
@@ -22,6 +24,11 @@
 
 a {
    outline: 0 !important;
+}
+
+.tooltip {
+  transition-duration: 0.5s;
+  text-transform: uppercase;
 }
 
 body {
@@ -263,6 +270,7 @@ body.audio-loaded {
 .ember-notify {
   font-weight: bold;
   text-transform: uppercase;
+  text-align: center;
 
   &.alert-danger {
     background: transparent;
@@ -385,5 +393,18 @@ body.audio-loaded {
   p {
     color: #ccc;
     font-weight: bold;
+  }
+
+  a {
+    color: white;
+  }
+
+  header h1 {
+    margin-bottom: 30px;
+    font-size: 12px;
+    font-weight: 200;
+    color: @brand-primary;
+    text-align: center;
+    text-transform: uppercase;
   }
 }

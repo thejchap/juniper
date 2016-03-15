@@ -4,19 +4,19 @@
 </div>
 
 <div class="bulb-controls">
-  <a href="#" class='bulb-control filter {{if stem.isFilterManipulated "active"}}' {{action 'showFilterModal' bubbles=false}}>
+  <a href="#" class='bulb-control filter {{if stem.isFilterManipulated "active"}}' {{action 'showFilterModal' bubbles=false}} data-toggle="tooltip" data-placement="top" title="Filter">
     <i class='ion-erlenmeyer-flask'></i>
   </a>
-  <a href="#" class='bulb-control distortion {{if stem.isDistortionManipulated "active"}}' {{action 'showDistortionModal' bubbles=false}}>
+  <a href="#" class='bulb-control distortion {{if stem.isDistortionManipulated "active"}}' {{action 'showDistortionModal' bubbles=false}}  data-toggle="tooltip" data-placement="bottom" title="Distortion">
     <i class='ion-nuclear'></i>
   </a>
-  <a href="#" class='bulb-control volume {{if stem.isVolumeManipulated "active"}}' {{action 'showVolumeModal' bubbles=false}}>
+  <a href="#" class='bulb-control volume {{if stem.isVolumeManipulated "active"}}' {{action 'showVolumeModal' bubbles=false}}  data-toggle="tooltip" data-placement="left" title="Volume">
     <i class='{{stem.volumeIconClass}}'></i>
   </a>
-  <a href="#" class='bulb-control reverse {{if stem.isReversed "active"}}' {{action 'toggleReverse' bubbles=false}}>
+  <a href="#" class='bulb-control reverse {{if stem.isReversed "active"}}' {{action 'toggleReverse' bubbles=false}}  data-toggle="tooltip" data-placement="left" title="Reverse">
     <i class='ion-ios-{{if stem.isReversed "fastforward" "rewind"}}'></i>
   </a>
-  <a href="#" class='bulb-control mute {{if stem.on "active"}}' {{action 'toggleMute' bubbles=false}}>
+  <a href="#" class='bulb-control mute {{if stem.on "active"}}' {{action 'toggleMute' bubbles=false}}  data-toggle="tooltip" data-placement="right" title="On/Off">
     <i class='ion-lightbulb'></i>
   </a>
 </div>

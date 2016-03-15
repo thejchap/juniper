@@ -24,29 +24,5 @@ export default Ember.Controller.extend({
 
   redirectOnToggles: observer('model.@each.isReversed', 'model.@each.on', function() {
     run.next(() => this.send('updateUrl'));
-  }),
-
-  actions: {
-    preorderDigital() {
-      window.open(this.get('preorderDigitalLink'), '_blank');
-
-      this.get('metrics').trackEvent({
-        category: 'Preorder',
-        action: 'Click',
-        label: 'Digital',
-        value: 8
-      });
-    },
-
-    preorderVinyl() {
-      window.open(this.get('preorderVinylLink'), '_blank');
-
-      this.get('metrics').trackEvent({
-        category: 'Preorder',
-        action: 'Click',
-        label: 'Vinyl',
-        value: 25
-      });
-    }
-  }
+  })
 });

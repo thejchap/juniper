@@ -90,6 +90,10 @@ export default Ember.Controller.extend({
 
   actions: {
     play() {
+      if (this.get('isPlaying')) {
+        return;
+      }
+
       this.set('isPlaying', true);
       this.set('current16thNote', 0);
       this.set('currentBar', 0);

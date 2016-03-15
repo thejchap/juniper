@@ -7,6 +7,8 @@ export default Ember.Component.extend({
   preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
   preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
   preorderDigital: 'preorderDigital',
+  startTour: 'startTour',
+  resetMix: 'resetMix',
   preorderVinyl: 'preorderVinyl',
   togglePlaying: 'togglePlaying',
   showShareModal: 'showShareModal',
@@ -56,6 +58,14 @@ export default Ember.Component.extend({
 
     preorderVinyl() {
       this.sendAction('preorderVinyl');
+    },
+
+    resetMix() {
+      this.sendAction('resetMix');
+    },
+
+    startTour() {
+      this.sendAction('startTour');
     },
 
     preorderDigital() {

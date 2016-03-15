@@ -527,6 +527,8 @@ Stem.reopenClass({
       return;
     }
 
+    store.peekAll('stem').setEach('on', false);
+
     ids.forEach((id) => {
       const stem = store.peekRecord('stem', id);
 

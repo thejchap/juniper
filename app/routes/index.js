@@ -1,11 +1,28 @@
 import Ember from 'ember';
 import Stem from 'juniper/models/stem';
+import config from 'juniper/config/environment';
 const { inject, run } = Ember;
 
 export default Ember.Route.extend({
   tour: inject.service(),
 
   metrics: inject.service(),
+
+  notify: inject.service(),
+
+  preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
+
+  preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
+
+  queryParams: {
+    stemData: {
+      refreshModel: true
+    },
+
+    ids: {
+      refreshModel: true
+    }
+  },
 
   beforeModel() {
     if (!Modernizr.webaudio || !Modernizr.cssanimations) {
@@ -36,7 +53,13 @@ export default Ember.Route.extend({
     const loadAudio = Promise.all(model.invoke('loadAudio'));
     transport.set('stems', model);
     this._initTour();
-    loadAudio.then(() => run.next(() => this.get('tour').start()));
+    loadAudio.then(() => {
+      if (this.get('controller.stemData') === null && this.get('controller.ids') === '8') {
+        run.next(() => this.get('tour').start())
+      } else {
+        this.get('controller.transport').send('play');
+      }
+    });
   },
 
   _initTour() {
@@ -130,6 +153,11 @@ export default Ember.Route.extend({
     }]);
   },
 
+  _resetMix() {
+    this.transitionTo({ queryParams: { stemData: null, ids: '8' } });
+    this.get('notify').success('Remix reset');
+  },
+
   actions: {
     toggleStem(stem) {
       stem.toggleProperty('on');
@@ -139,12 +167,64 @@ export default Ember.Route.extend({
       this.send('showModal', 'modals/share');
     },
 
+    startTour() {
+      this.get('tour').start();
+
+      this.get('metrics').trackEvent({
+        category: 'Tour',
+        action: 'Manual Start'
+      });
+    },
+
+    resetMix() {
+      this.get('metrics').trackEvent({
+        category: 'Transport',
+        action: 'Reset - Clicked'
+      });
+
+      if (window.confirm('Are you sure you want to reset your mix? You will lose all of your changes')) {
+        this.get('metrics').trackEvent({
+          category: 'Transport',
+          action: 'Reset - Confirmed'
+        });
+
+        this._resetMix();
+      } else {
+        this.get('metrics').trackEvent({
+          category: 'Transport',
+          action: 'Reset - Canceled'
+        });
+      }
+    },
+
     updateUrl() {
       const stems = this.get('controller.onStems');
       const ids = Stem.urlEncodeIds(stems);
       const stemData = Stem.urlEncodeData(stems);
       let queryParams = { stemData, ids };
       this.transitionTo({ queryParams });
+    },
+
+    preorderDigital() {
+      window.open(this.get('preorderDigitalLink'), '_blank');
+
+      this.get('metrics').trackEvent({
+        category: 'Preorder',
+        action: 'Click',
+        label: 'Digital',
+        value: 8
+      });
+    },
+
+    preorderVinyl() {
+      window.open(this.get('preorderVinylLink'), '_blank');
+
+      this.get('metrics').trackEvent({
+        category: 'Preorder',
+        action: 'Click',
+        label: 'Vinyl',
+        value: 25
+      });
     }
   }
 });

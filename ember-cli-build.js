@@ -9,6 +9,7 @@ module.exports = function(defaults) {
   app.import('vendor/modernizr-custom.js');
   app.import(app.bowerDirectory + '/bootstrap/js/transition.js');
   app.import(app.bowerDirectory + '/bootstrap/js/modal.js');
+  app.import(app.bowerDirectory + '/bootstrap/js/tooltip.js');
   app.import(app.bowerDirectory + '/jquery-knob/dist/jquery.knob.min.js');
   app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-arrows-plain-buttons.css');
   app.import(app.bowerDirectory + '/tether-shepherd/dist/css/shepherd-theme-arrows.css');

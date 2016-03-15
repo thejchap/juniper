@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { run, on, computed, inject } = Ember;
+const { run, on, computed, inject, observer } = Ember;
 
 export default Ember.Component.extend({
   metrics: inject.service(),
@@ -28,6 +28,18 @@ export default Ember.Component.extend({
   action: 'toggleStem',
 
   isGridLayoutComplete: false,
+
+  initTooltips: observer('isHovered', function() {
+    if (this.get('isHovered')) {
+      run.next(() => {
+        this.$('[data-toggle="tooltip"]').tooltip();
+      });
+    } else {
+      run.next(() => {
+        this.$('[data-toggle="tooltip"]').tooltip('destroy');
+      });
+    }
+  }),
 
   listenForLayoutCompletion: on('didInsertElement', function() {
     run.next(() => this.$().parent().one('layoutComplete', () => {

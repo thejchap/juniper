@@ -20,6 +20,12 @@
     <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn {{unless transport "disabled"}}'>
       <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
     </a>
+    <a href="#" class='btn btn-primary navbar-btn' {{action 'resetMix'}}>
+      <i class='ion-refresh'></i>
+    </a>
+    <a href="#" class='btn btn-primary navbar-btn' {{action 'startTour'}}>
+      <i class='ion-help-circled'></i>
+    </a>
     <a href="#" class='btn btn-primary navbar-btn  {{unless transport "disabled"}}' {{action 'showShareModal'}}>
       <i class='ion-android-share-alt'></i>
     </a>
