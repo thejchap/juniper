@@ -50,7 +50,7 @@ export default Ember.Component.extend({
       }
 
       this.set('isHovered', true);
-    }, 500);
+    }, 300);
   },
 
   click() {

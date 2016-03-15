@@ -17,11 +17,11 @@
     </a>
   </div>
   <div class="pull-right hidden-xs">
-      <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn'>
-        <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
-      </a>
-      <a href="#" class='btn btn-primary navbar-btn' {{action 'showShareModal'}}>
-        <i class='ion-android-share-alt'></i>
-      </a>
+    <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn {{unless transport "disabled"}}'>
+      <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
+    </a>
+    <a href="#" class='btn btn-primary navbar-btn  {{unless transport "disabled"}}' {{action 'showShareModal'}}>
+      <i class='ion-android-share-alt'></i>
+    </a>
   </div>
 </div>

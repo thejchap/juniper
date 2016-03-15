@@ -21,6 +21,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('unsupported');
 });
 
 export default Router;

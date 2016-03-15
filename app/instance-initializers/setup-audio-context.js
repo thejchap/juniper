@@ -1,4 +1,8 @@
 function initialize(app) {
+  if (!Modernizr.webaudio) {
+    return;
+  }
+
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
   const ctx = new AudioContext();

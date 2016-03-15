@@ -1,23 +1,6 @@
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: {{fbAppId}},
-      xfbml: true,
-      version: 'v2.5'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-
 {{nav-component transport=transport}}
-<div class="hidden-xs">
+
+<div class="hidden-xs" style='width: 100%;'>
   <div class="bulbs-wrapper container-fluid {{if transport.isPlaying 'is-playing'}}">
     {{#masonry-grid columnWidth='.grid-sizer'}}
       <div class="grid-sizer"></div>
@@ -39,7 +22,7 @@
     </a>
   </div>
   <p>
-    Please view this website in a wider browser window to use the remixer.
+    Please view this website in a wider browser window to use the Remixer
   </p>
 </div>
 

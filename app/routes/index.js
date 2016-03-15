@@ -7,6 +7,12 @@ export default Ember.Route.extend({
 
   metrics: inject.service(),
 
+  beforeModel() {
+    if (!Modernizr.webaudio || !Modernizr.cssanimations) {
+      this.transitionTo('unsupported');
+    }
+  },
+
   model(params) {
     const loadStems = this.store.findAll('stem');
     const meta = Stem.urlDecodeIds(params.ids);

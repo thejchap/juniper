@@ -6,6 +6,7 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  app.import('vendor/modernizr-custom.js');
   app.import(app.bowerDirectory + '/bootstrap/js/transition.js');
   app.import(app.bowerDirectory + '/bootstrap/js/modal.js');
   app.import(app.bowerDirectory + '/jquery-knob/dist/jquery.knob.min.js');

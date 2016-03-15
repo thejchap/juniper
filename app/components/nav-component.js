@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   metrics: inject.service(),
   preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
   preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
+  preorderDigital: 'preorderDigital',
+  preorderVinyl: 'preorderVinyl',
   togglePlaying: 'togglePlaying',
   showShareModal: 'showShareModal',
   tagName: 'nav',
@@ -50,6 +52,14 @@ export default Ember.Component.extend({
         category: 'Social',
         action: 'Open Modal'
       });
+    },
+
+    preorderVinyl() {
+      this.sendAction('preorderVinyl');
+    },
+
+    preorderDigital() {
+      this.sendAction('preorderDigital');
     }
   }
 });

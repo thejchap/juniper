@@ -8,8 +8,6 @@ export default Ember.Controller.extend({
     ids: 'i'
   },
 
-  fbAppId: config.APP.FB_APP_ID,
-
   ids: '8',
 
   stemData: null,
