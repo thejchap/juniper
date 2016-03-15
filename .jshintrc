@@ -4,6 +4,7 @@
     "AudioContext",
     "window",
     "Promise",
+    "Modernizr",
     "FB"
   ],
   "browser": true,

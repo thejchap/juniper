@@ -10,10 +10,6 @@ export default Ember.Route.extend({
 
   notify: inject.service(),
 
-  preorderDigitalLink: config.APP.LINKS.PREORDER.ITUNES,
-
-  preorderVinylLink: config.APP.LINKS.PREORDER.VINYL,
-
   queryParams: {
     stemData: {
       refreshModel: true
@@ -55,7 +51,7 @@ export default Ember.Route.extend({
     this._initTour();
     loadAudio.then(() => {
       if (this.get('controller.stemData') === null && this.get('controller.ids') === '8') {
-        run.next(() => this.get('tour').start())
+        run.next(() => this.get('tour').start());
       } else {
         this.get('controller.transport').send('play');
       }
@@ -203,28 +199,6 @@ export default Ember.Route.extend({
       const stemData = Stem.urlEncodeData(stems);
       let queryParams = { stemData, ids };
       this.transitionTo({ queryParams });
-    },
-
-    preorderDigital() {
-      window.open(this.get('preorderDigitalLink'), '_blank');
-
-      this.get('metrics').trackEvent({
-        category: 'Preorder',
-        action: 'Click',
-        label: 'Digital',
-        value: 8
-      });
-    },
-
-    preorderVinyl() {
-      window.open(this.get('preorderVinylLink'), '_blank');
-
-      this.get('metrics').trackEvent({
-        category: 'Preorder',
-        action: 'Click',
-        label: 'Vinyl',
-        value: 25
-      });
     }
   }
 });
