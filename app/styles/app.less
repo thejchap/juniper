@@ -290,20 +290,24 @@ body.audio-loaded {
 }
 
 .spinner {
-  position: absolute;
-  width: 120px;
-  height: 120px;
+  position: fixed;
+  width: 60px;
+  height: 60px;
   top: 50%;
   left: 50%;
-  margin-left: -60px;
-  margin-top: -60px;
+  margin-left: -30px;
+  margin-top: -30px;
 
   &:after, &:before {
     content: '';
-    position: fixed;
+    position: absolute;
     border: 2px solid @brand-primary;
-    width: 120px;
-    height: 120px;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   &:after {
@@ -312,11 +316,11 @@ body.audio-loaded {
   }
 
   &:before {
-    border-radius: 88px;
-    width: 176px;
-    height: 176px;
-    margin-left: -28px;
-    margin-top: -28px;
+    border-radius: 44px;
+    width: 88px;
+    height: 88px;
+    margin-left: -14px;
+    margin-top: -14px;
   }
 
   .percent {
@@ -334,10 +338,6 @@ body.audio-loaded {
     font-weight: 400;
     opacity: 0.8;
   }
-}
-
-.spinner-modal .modal-content {
-  text-align: left;
 }
 
 .mobile-container {

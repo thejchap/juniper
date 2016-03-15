@@ -14,6 +14,10 @@ export default Ember.Component.extend({
   showShareModal: 'showShareModal',
   tagName: 'nav',
   classNames: ['navbar', 'navbar-default', 'navbar-fixed-top'],
+  initTooltips: on('didInsertElement', function() {
+    this.$('[data-toggle="tooltip"]').tooltip();
+  }),
+
   setupKeyboardShortcuts: on('didInsertElement', function() {
     Ember.$(document).keypress((e) => {
       switch (e.which) {

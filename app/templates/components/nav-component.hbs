@@ -17,16 +17,16 @@
     </a>
   </div>
   <div class="pull-right hidden-xs">
-    <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn {{unless transport "disabled"}}'>
+    <a href="#" {{action 'togglePlaying'}} class='btn btn-primary navbar-btn {{unless transport "disabled"}}' data-toggle="tooltip" data-placement="bottom" title="Play/Stop">
       <i class='ion-{{if transport.isPlaying "stop" "play"}}'></i>
     </a>
-    <a href="#" class='btn btn-primary navbar-btn' {{action 'resetMix'}}>
+    <a href="#" class='btn btn-primary navbar-btn' {{action 'resetMix'}}  data-toggle="tooltip" data-placement="bottom" title="Reset">
       <i class='ion-refresh'></i>
     </a>
-    <a href="#" class='btn btn-primary navbar-btn' {{action 'startTour'}}>
+    <a href="#" class='btn btn-primary navbar-btn' {{action 'startTour'}}  data-toggle="tooltip" data-placement="bottom" title="Help">
       <i class='ion-help-circled'></i>
     </a>
-    <a href="#" class='btn btn-primary navbar-btn  {{unless transport "disabled"}}' {{action 'showShareModal'}}>
+    <a href="#" class='btn btn-primary navbar-btn  {{unless transport "disabled"}}' {{action 'showShareModal'}}  data-toggle="tooltip" data-placement="bottom" title="Share">
       <i class='ion-android-share-alt'></i>
     </a>
   </div>
