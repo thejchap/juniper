@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Stem from 'juniper/models/stem';
-import config from 'juniper/config/environment';
 const { inject, run } = Ember;
 
 export default Ember.Route.extend({
@@ -93,7 +92,10 @@ export default Ember.Route.extend({
         attachTo: 'body',
         title: 'Welcome to Juniper',
         showCancelLink: false,
-        text: ["This website allows you to create your own remixes of songs from Square Peg Round Hole's upcoming album, <strong>Juniper</strong>."],
+        text: [
+          'This website allows you to create your own remixes of songs from Square Peg Round Hole\'s upcoming album, <strong>Juniper</strong>.',
+          'For best results, please use <strong>Google Chrome</strong> as your web browser when creating your remixes.'
+        ],
         builtInButtons: [{
           classes: 'shepherd-button-secondary',
           text: 'Close',

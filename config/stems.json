@@ -6,6 +6,7 @@
 }, {
   "id": 2,
   "fileName": "BLITHE%20-%20Bridge%20Stem.mp3",
+  "reverseFileName": "BLITHE%20-%20Bridge%20Stems%20(REV).mp3",
   "name": "Blithe - Bridge"
 }, {
   "id": 3,
@@ -20,10 +21,12 @@
 }, {
   "id": 5,
   "fileName": "LAPSE%20-%20Drum%20(1_2%20Speed).mp3",
+  "reverseFileName": "LAPSE%20-%20drum%20stems%201_2%20(REV).mp3",
   "name": "Lapse - Slow Drums"
 }, {
   "id": 6,
   "fileName": "LAPSE%20-%20Drum%20Stem.mp3",
+  "reverseFileName": "LAPSE%20-%20drum%20stems%20(REV).mp3",
   "name": "Lapse - Drums"
 }, {
   "id": 7,
@@ -38,10 +41,12 @@
 }, {
   "id": 9,
   "fileName": "MOM.%20LIGHT%20-%20E.%20Drum%20Stem.mp3",
+  "reverseFileName": "MOM.%20LIGHT%20-%20E.%20Drum%20Stems%20(REV).mp3",
   "name": "Mom.Light - Drums"
 }, {
   "id": 10,
   "fileName": "MOM.%20LIGHT%20-%20E.%20Drums%20(1_2%20Speed).mp3",
+  "reverseFileName": "MOM.%20LIGHT%20-%20E.%20Drum%20Stems%201_2%20(REV).mp3",
   "name": "Mom.Light - Slow Drums"
 }, {
   "id": 11,
@@ -66,10 +71,12 @@
 }, {
   "id": 15,
   "fileName": "SMASHED%20-%20Drum%20Stem.mp3",
+  "reverseFileName": "SMASHED%20-%20drum%20stems%20(REV).mp3",
   "name": "Smashed - Drums"
 }, {
   "id": 16,
   "fileName": "SMASHED%20-%20Drums%20(2x%20Speed).mp3",
+  "reverseFileName": "SMASHED%20-%20drum%20stems%20(2x%20Speed)%20REV.mp3",
   "name": "Smashed - 2x Drums"
 }, {
   "id": 17,

@@ -31,9 +31,10 @@ export default Ember.Component.extend({
 
   initTooltips: observer('isHovered', function() {
     if (this.get('isHovered')) {
-      run.next(() => {
+      run.later(() => {
         this.$('[data-toggle="tooltip"]').tooltip();
-      });
+        this.$().click(() => this.$('[data-toggle="tooltip"]').tooltip('hide'));
+      }, 500);
     } else {
       run.next(() => {
         this.$('[data-toggle="tooltip"]').tooltip('destroy');
