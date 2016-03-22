@@ -66,12 +66,12 @@ module.exports = function(environment) {
 
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
-    'script-src': "'self' www.google-analytics.com connect.facebook.net 'sha256-TZ1d0U/dSrpe8YLo15tVjyV3pS8QTac65pDvOBFh9KI='",
+    'script-src': "'self' www.google-analytics.com connect.facebook.net 'sha256-TZ1d0U/dSrpe8YLo15tVjyV3pS8QTac65pDvOBFh9KI=' 'sha256-H+qUI35DiBVcanreE5KJlW7oBZoxx5p6cqifYW9ZFVI=' a.adroll.com s.adroll.com d.adroll.com",
     'child-src': "'self'",
     'font-src': "'self' code.ionicframework.com fonts.gstatic.com",
     'frame-src': "'self' staticxx.facebook.com",
     'connect-src': "'self' sprh.s3.amazonaws.com www.google-analytics.com api-ssl.bitly.com",
-    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com www.google-analytics.com www.facebook.com",
+    'img-src': "'self' sprh.s3.amazonaws.com s3.amazonaws.com www.google-analytics.com www.facebook.com d.adroll.com ads.yahoo.com ib.adnxs.com x.bidswitch.net analytics.twitter.com idsync.rlcdn.com us-u.openx.net",
     'style-src': "'self' 'unsafe-inline' code.ionicframework.com cdnjs.cloudflare.com fonts.googleapis.com",
     'media-src': "'self' sprh.s3.amazonaws.com"
   }
