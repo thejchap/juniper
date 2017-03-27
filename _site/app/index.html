@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SQUARE PEG ROUND HOLE | JUNIPER REMIXER</title>
+    <meta name="description" content="Create your own remixes of songs off Square Peg Round Hole's upcoming album, Juniper">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <meta property="og:url" content="http://juniper.squarepegroundhole.me" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Square Peg Round Hole - Juniper Remixer" />
+    <meta property="og:image" content="http://sprh.s3.amazonaws.com/bulbs/img/Screenshot%202016-03-13%2020.20.53.png" />
+    <meta property="og:description" content="Create your own remixes of songs off Square Peg Round Hole's upcoming album, Juniper" />
+
+    {{content-for 'head'}}
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/juniper.css">
+
+    {{content-for 'head-footer'}}
+  </head>
+  <body>
+    {{content-for 'body'}}
+
+    <script src="assets/vendor.js"></script>
+    <script src="assets/juniper.js"></script>
+
+    {{content-for 'body-footer'}}
+
+    <!-- begin Spartan Adroll code -->
+    <script type="text/javascript">
+      adroll_adv_id = "CBJNYOPDEFDDRP7AFF4NHY";
+      adroll_pix_id = "AFSVGB7765FC7DQ6FPHWIC";
+
+      (function () {
+        var _onload = function(){
+          if (document.readyState && !/loaded|complete/.test(document.readyState)){setTimeout(_onload, 10);return}
+          if (!window.__adroll_loaded){__adroll_loaded=true;setTimeout(_onload, 50);return}
+          var scr = document.createElement("script");
+          var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+          scr.setAttribute('async', 'true');
+          scr.type = "text/javascript";
+          scr.src = host + "/j/roundtrip.js";
+          ((document.getElementsByTagName('head') || [null])[0] ||
+           document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+        };
+        if (window.addEventListener) {window.addEventListener('load', _onload, false);}
+        else {window.attachEvent('onload', _onload)}
+      }());
+    </script>
+    <!-- end Spartan Adroll code -->
+  </body>
+</html>

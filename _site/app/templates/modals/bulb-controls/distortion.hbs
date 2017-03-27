@@ -1,0 +1,10 @@
+{{#modal-component close='close'}}
+  {{#knob-component
+    value=model.distortionAmount
+    min=model.minDistortionAmount
+    step=0.01
+    onRelease='distortionUpdated'
+    max=model.maxDistortionAmount}}
+    <i class='ion-nuclear'></i>
+  {{/knob-component}}
+{{/modal-component}}

@@ -1,0 +1,71 @@
+.modal-backdrop.fade {
+  transition-duration: 0.3s;
+}
+
+.modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &.in, &.out {
+    .modal-dialog {
+      animation-duration: 0.4s;
+      animation-fill-mode: forwards;
+      animation-name: anim-open;
+    }
+  }
+
+  &.out .modal-dialog { animation-name: anim-close }
+
+  &.in {
+    pointer-events: auto;
+
+    .modal-dialog {
+      .modal-content, a { animation: anim-elem 0.4s both }
+      .modal-content { animation-delay: 0.05s }
+      a { animation-delay: 0.15s }
+    }
+  }
+
+  .modal-dialog {
+    width: 50%;
+    max-width: 320px;
+    min-width: 320px;
+    padding: 4em;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    opacity: 0;
+    overflow: visible;
+
+    .modal-content {
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      margin-bottom: 60px;
+      display: block;
+      overflow: visible;
+    }
+
+    a {
+      text-align: center;
+      display: inline-block;
+      width: 5rem;
+      height: 5rem;
+      border: 2px solid @brand-primary;
+      border-radius: 50%;
+      text-decoration: none;
+      font-size: 2.5rem;
+      padding: 0.5rem;
+      transition: .5s;
+
+      &:hover {
+        border-color: white;
+        color: white;
+      }
+    }
+  }
+}
+

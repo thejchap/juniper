@@ -1,0 +1,14 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.page-header {
+  background: #d6ac79;
+}
+
+.main-content {
+  h1, h2, h3, h4 {
+    color: #111;
+  }
+}

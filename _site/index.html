@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Overview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=8737a3486e5148793c11bb115920a2e5d76c7b82">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Juniper Remixer</h1>
+      <h2 class="project-tagline"></h2>
+      
+        <a href="http://github.com/thejchap/juniper" class="btn">View on GitHub</a>
+      
+      <a href="http://juniper.squarepegroundhole.me" target='_blank' class="btn">View Site</a>
+      
+    </section>
+
+    <section class="main-content">
+      <h3 id="overview">Overview</h3>
+
+<p>This is a single-page Javascript app that makes heavy use of the Web Audio API to allow visitors
+to create their own remixes of songs from Square Peg Round Hole’s album Juniper. The app is built on the Ember javascript framework.</p>
+
+<p>Users can take the following actions with each sound:</p>
+
+<ul>
+  <li>Mute/Unmute</li>
+  <li>Reverse</li>
+  <li>Control volume</li>
+  <li>Add distortion</li>
+  <li>Add a filter</li>
+</ul>
+
+<h3 id="audio">Audio</h3>
+
+<p>The app uses the Web Audio API (https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) to achieve the following:</p>
+
+<ul>
+  <li>Schedule sample playback with solid timing</li>
+  <li>Provide filters that the samples are routed through (distortion and low pass filter)</li>
+  <li>Provide gain/volume controls and signal path</li>
+</ul>
+
+<h4 id="controls">Controls</h4>
+
+<p>Ember 2’s computed getters and setters make manipulating the various Web Audio properties very clean while also allowing other aspects of the app to monitor those values for changes (ie the position of the volume knob, changing the volume speaker icon based on how loud the sound is, etc)</p>
+
+<p>Here is a very simple example with lots of code omitted:</p>
+
+<pre><code class="language-es6">// app/models/stem.js
+
+import Ember from 'ember';
+import DS from 'ember-data';
+const { computed } = Ember;
+
+export default DS.Model.extend({
+  _volume: 0.75,
+  
+  volume: computed('_volume', {
+    get() {
+      return this.get('_volume');
+    },
+    
+    set(_key, volume) {
+      this.set('_volume', volume);
+      
+      // where this.get('audioGainNode') is a GainNode object
+      this.set('audioGainNode.gain.value', volume);
+      
+      return volume;
+    }
+  })
+});
+</code></pre>
+
+<h3 id="persistence">Persistence</h3>
+
+<p>Every change a user makes to a sound is stored in the URL so that users can share
+their remixes without the app requiring any back-end database or persistent storage</p>
+
+<h4 id="url-encoding-scheme">URL encoding scheme</h4>
+
+<p>The final, encoded mix looks like this in the URL:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://juniper.squarepegroundhole.me/#/?i=7-2_9-8_29&amp;s=798bcd8a74
+</code></pre>
+</div>
+
+<h5 id="i-parameter">i parameter</h5>
+<p>The <code class="highlighter-rouge">i</code> parameter is an underscore-delimited series of pairs containing the IDs of the ‘on’ sounds, as well as
+the length of that bulb’s base-16 encoded ‘state’ string (these are all concatenated together and make up the <code class="highlighter-rouge">s</code> parameter.
+This allows us to store information about each bulb’s volume/distortion/etc and keep the query string as short as possible.</p>
+
+<p>In this example: <code class="highlighter-rouge">5-3_7-3_9-6_23</code></p>
+
+<ul>
+  <li>Sound 7 is on and has a 2 character state string</li>
+  <li>Sound 9 is on and has an 8 character state string</li>
+  <li>Sound 29 is on (nothing else has been manipulated on this sound so the 2nd number (and state string) is omitted)</li>
+</ul>
+
+<h5 id="s-parameter">s parameter</h5>
+<p>The <code class="highlighter-rouge">s</code> parameter is a group of base-16 encoded strings containing information about the changes made to each sound.
+Because we know the length of each of these strings, we can break this parameter apart and decode the data for each
+sound.</p>
+
+<p>In this example:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>         Sound 9
+         |
+[79][8bcd8a74]
+  |
+  Sound 7
+</code></pre>
+</div>
+
+<p>Each string is then converted to base 10 and parsed out according to the following protocol (from left to right):</p>
+<ul>
+  <li><strong>Number of properties manipulated</strong>
+    <ul>
+      <li>1 digit</li>
+      <li>Min: 1, max: 4</li>
+    </ul>
+  </li>
+  <li><strong>Which properties manipulated</strong>
+    <ul>
+      <li>Number of digits = number from the first digit</li>
+      <li>Possible values:
+        <ul>
+          <li>1 - <code class="highlighter-rouge">volume</code></li>
+          <li>2 - <code class="highlighter-rouge">isReversed</code></li>
+          <li>3 - <code class="highlighter-rouge">distortionAmount</code></li>
+          <li>4 - <code class="highlighter-rouge">filterFrequency</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Values of manipulated properties</strong></p>
+
+    <ul>
+      <li>Number of digits = number of properties manipulated * length of each each property
+        <ul>
+          <li><code class="highlighter-rouge">volume</code>
+            <ul>
+              <li>2 digits</li>
+              <li>Min: 0, max: 99</li>
+            </ul>
+          </li>
+          <li><code class="highlighter-rouge">isReversed</code>
+            <ul>
+              <li>1 digit</li>
+              <li>Min: 0, max: 1</li>
+            </ul>
+          </li>
+          <li><code class="highlighter-rouge">distortionAmount</code>
+            <ul>
+              <li>2 digits</li>
+              <li>Min: 0, max: 99</li>
+            </ul>
+          </li>
+          <li><code class="highlighter-rouge">filterFrequency</code>
+            <ul>
+              <li>5 digits</li>
+              <li>Min: 60, max: 19000</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>In this example:</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>         Sound 9
+         |
+[79][8bcd8a74]
+  |
+  Sound 7
+
+# Sound 7
+- Original (Base 16): 79
+- Decoded (Base 10): 121
+
+    which property: isReversed
+    |
+[1][2][1]
+ |     |
+ |     property value: on
+ |
+ 1 property has been manipulated
+
+# Sound 9
+- Original (Base 16): 8bcd8a74
+- Decoded (Base 10): 2345503348
+
+    which properties: distortionAmount, filterFrequency
+    |
+    |         filterFrequency: 03348 (3.348kHz)
+    |         |
+[2][34][55][03348]
+ |      |
+ |      distortionAmount: 55 (55%)
+ |
+ 2 properties have been manipulated
+</code></pre>
+</div>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li><a href="http://git-scm.com/">Git</a></li>
+  <li><a href="http://nodejs.org/">Node.js</a> (with NPM)</li>
+  <li><a href="http://bower.io/">Bower</a></li>
+  <li><a href="http://www.ember-cli.com/">Ember CLI</a></li>
+  <li><a href="http://phantomjs.org/">PhantomJS</a></li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">git clone &lt;repository-url&gt;</code> this repository</li>
+  <li>change into the new directory</li>
+  <li><code class="highlighter-rouge">npm install</code></li>
+  <li><code class="highlighter-rouge">bower install</code></li>
+</ul>
+
+<h2 id="running--development">Running / Development</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">ember server</code></li>
+  <li>Visit your app at <a href="http://localhost:4200">http://localhost:4200</a>.</li>
+</ul>
+
+<h3 id="code-generators">Code Generators</h3>
+
+<p>Make use of the many generators for code, try <code class="highlighter-rouge">ember help generate</code> for more details</p>
+
+<h3 id="running-tests">Running Tests</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">ember test</code></li>
+  <li><code class="highlighter-rouge">ember test --server</code></li>
+</ul>
+
+<h3 id="building">Building</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">ember build</code> (development)</li>
+  <li><code class="highlighter-rouge">ember build --environment production</code> (production)</li>
+</ul>
+
+<h2 id="further-reading--useful-links">Further Reading / Useful Links</h2>
+
+<ul>
+  <li><a href="http://emberjs.com/">ember.js</a></li>
+  <li><a href="http://www.ember-cli.com/">ember-cli</a></li>
+  <li>Development Browser Extensions
+    <ul>
+      <li><a href="https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi">ember inspector for chrome</a></li>
+      <li><a href="https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/">ember inspector for firefox</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>MIT License</p>
+
+<p>Copyright (c) 2017 Justin Chapman</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="http://github.com/thejchap/juniper">juniper</a> is maintained by <a href="http://github.com/thejchap">thejchap</a>.</span>
+        
+      </footer>
+    </section>
+
+    
+  </body>
+</html>

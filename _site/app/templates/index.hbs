@@ -1,0 +1,27 @@
+{{nav-component transport=transport}}
+
+<div class="hidden-xs" style='width: 100%;'>
+  <div class="bulbs-wrapper container-fluid {{if transport.isPlaying 'is-playing'}}">
+    {{#masonry-grid columnWidth='.grid-sizer'}}
+      <div class="grid-sizer"></div>
+      {{#each model as |stem|}}
+        {{sprh-bulb stem=stem}}
+      {{/each}}
+    {{/masonry-grid}}
+  </div>
+</div>
+
+<div class="container mobile-container visible-xs">
+  <div class="mobile-preorder-btns">
+    <h4>Preorder</h4>
+    <a href="#" class='btn btn-primary btn-block btn-lg preorder-btn' href="{{preorderDigitalLink}}" target='_blank' {{action 'preorderDigital'}}>
+      iTunes - $7.99
+    </a>
+    <a href="#" class='btn btn-primary btn-block btn-lg preorder-btn' href="{{preorderVinylLink}}" target='_blank' {{action 'preorderVinyl'}}>
+      Vinyl - $24.99
+    </a>
+  </div>
+  <p>
+    Please view this website in a wider browser window to use the Remixer
+  </p>
+</div>

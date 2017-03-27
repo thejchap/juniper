@@ -1,0 +1,12 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      {{yield}}
+    </div>
+    {{#unless hideActions}}
+      <a href="#" {{action 'ok'}}>
+        <i class='ion-checkmark-round'></i>
+      </a>
+    {{/unless}}
+  </div>
+</div>

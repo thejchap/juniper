@@ -1,0 +1,410 @@
+@import '../../bower_components/bootstrap/less/bootstrap';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300');
+
+@font-family-sans-serif: 'Open Sans', Helvetica, arial, sans-serif;
+@brand-primary: #d6ac79;
+@brand-facebook: #3b5998;
+@brand-twitter: #55acee;
+@navbar-default-bg: rgba(0,0,0,0.5);
+@navbar-default-link-color: @brand-primary;
+@navbar-default-link-hover-color: #ffffff;
+@navbar-default-link-hover-bg: #000;
+@border-radius-base: 0px;
+@body-bg: black;
+@navbar-height: 90px;
+@modal-backdrop-opacity: 0.7;
+@font-size-base: 11px;
+@tooltip-opacity: 1;
+@tooltip-color: white;
+
+@import 'animations';
+@import 'sprh-bulb';
+@import 'knob-component';
+@import 'modal-component';
+
+a {
+   outline: 0 !important;
+}
+
+.tooltip {
+  transition-duration: 0.5s;
+  text-transform: uppercase;
+}
+
+body {
+  letter-spacing: 2px;
+  padding-top: @navbar-height;
+  padding-bottom: @navbar-height;
+  color: white;
+}
+
+a:focus, a:active {
+  color: @brand-primary;
+}
+
+.loading-progress-num-wrapper {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 16px;
+  color: @brand-primary;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bulbs-wrapper {
+  transform: scale(0.95, 0.95);
+  transition: transform 1s;
+}
+
+body.audio-loaded {
+  .navbar.navbar-default {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .bulbs-wrapper {
+    transform: scale(1, 1);
+  }
+}
+
+.navbar.navbar-default {
+  border: none;
+  opacity: 0;
+
+  .preorder-text {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ccc;
+  }
+
+  .available-text {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #ccc;
+  }
+
+  .btn-primary, .preorder-btn {
+    font-weight: bold;
+    transition: all 0.5s ease;
+    border: 2px solid @brand-primary;
+    background: transparent;
+    color: @brand-primary;
+    text-transform: uppercase;
+
+    &:hover {
+      border-color: white;
+      color: white;
+    }
+  }
+
+  .navbar-brand {
+    pointer-events: none;
+    text-transform: uppercase;
+    font-weight: 200;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    margin: auto;
+
+    .juniper {
+      font-weight: bold;
+    }
+  }
+}
+
+.spartan-logo {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  margin-left: -29px;
+  z-index: 1000;
+  opacity: 0.2;
+  height: 60px;
+  transition: opacity 0.5s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.shepherd-element.shepherd-theme-dark .shepherd-content header h3 {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+}
+
+.shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
+  background: #000;
+  letter-spacing: 1px;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+.shepherd-element.shepherd-theme-dark .shepherd-content .shepherd-text p {
+  margin-bottom: 15px;
+}
+
+.shepherd-element.shepherd-theme-dark.shepherd-has-title .shepherd-content header {
+  background: transparent;
+}
+
+.shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
+  background: rgba(0,0,0,0.75);
+}
+
+.shepherd-element.shepherd-theme-dark {
+  z-index: 100001;
+}
+
+.shepherd-element.shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button {
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 0px;
+  transition: all 0.5s ease;
+
+  &.shepherd-button-secondary {
+    background: transparent;
+    border-color: #777;
+    color: #777;
+
+    &:hover {
+      color: white;
+      border-color: white;
+    }
+  }
+
+  &.shepherd-button-primary {
+    color: @brand-primary;
+    border-color: @brand-primary;
+
+    &:hover {
+      color: white;
+      border-color: white;
+    }
+  }
+}
+
+.shepherd-element.shepherd-theme-dark .shepherd-content .shepherd-text {
+  margin-bottom: 15px;
+}
+
+#shepherdOverlay {
+  opacity: @modal-backdrop-opacity;
+}
+
+.share-modal-content {
+  h3 {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+  }
+  .list-group, .list-group-item {
+    border: none;
+    background: transparent;
+    padding: 0px;
+  }
+  a.btn {
+    border-radius: @border-radius-base;
+    font-size: 11px;
+    height: auto;
+    width: 100%;
+    transition: 0.5s all ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+
+    &.btn-twitter {
+      border-color: @brand-twitter;
+      color: @brand-twitter;
+    }
+
+    &.btn-loading {
+      border-color: transparent;
+      color: #777;
+    }
+
+    &.btn-email {
+      border-color: @brand-primary;
+      color: @brand-primary;
+    }
+
+    &.btn-raw {
+      border-color: transparent;
+      color: white;
+      cursor: default;
+      margin-bottom: 40px;
+
+      &:hover {
+        border-color: transparent;
+      }
+    }
+
+    &.btn-facebook {
+      border-color: @brand-facebook;
+      color: @brand-facebook;
+    }
+
+    &:hover {
+      color: white;
+      border-color: white;
+    }
+  }
+}
+
+.ember-notify {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+
+  &.alert-danger {
+    background: transparent;
+    border: 2px solid @brand-danger;
+    color: @brand-danger;
+  }
+
+  &.alert-success {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+  }
+}
+
+@keyframes spinner {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(360deg) }
+}
+
+.spinner {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  margin-left: -30px;
+  margin-top: -30px;
+
+  &:after, &:before {
+    content: '';
+    position: absolute;
+    border: 2px solid @brand-primary;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &:after {
+    animation: spinner 2.5s cubic-bezier(0.420, 0.665, 0.680, 0.360) infinite;
+    border-color: white;
+  }
+
+  &:before {
+    border-radius: 44px;
+    width: 88px;
+    height: 88px;
+    margin-left: -14px;
+    margin-top: -14px;
+  }
+
+  .percent {
+    color: @brand-primary;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+}
+
+.mobile-container {
+  .preorder-btn {
+    background: transparent;
+    border-radius: 0px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid @brand-primary;
+    border-color: @brand-primary;
+    color: @brand-primary;
+    transition: all 0.5s ease;
+
+    &:hover, &:active {
+      border-color: white;
+      color: white;
+    }
+  }
+
+  h4 {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 15px;
+  }
+
+  .mobile-preorder-btns {
+    margin-top: 45px;
+  }
+
+  p {
+    text-transform: uppercase;
+    text-align: center;
+    color: #ccc;
+    margin-top: 60px;
+  }
+}
+
+.unsupported {
+  color: #ccc;
+  text-transform: uppercase;
+  margin-top: 30px;
+
+  h3 {
+    color: @brand-primary;
+    font-weight: 100;
+    margin-bottom: 15px;
+    line-height: 28px;
+  }
+
+  p {
+    color: #ccc;
+    font-weight: bold;
+  }
+
+  a {
+    color: white;
+  }
+
+  header h1 {
+    margin-bottom: 30px;
+    font-size: 12px;
+    font-weight: 200;
+    color: @brand-primary;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
