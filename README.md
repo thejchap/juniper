@@ -24,10 +24,6 @@ The app uses the Web Audio API (https://developer.mozilla.org/en-US/docs/Web/API
 * Provide filters that the samples are routed through (distortion and low pass filter)
 * Provide gain/volume controls and signal path
 
-
-#### Transport
-TODO
-
 #### Controls
 
 Ember 2's computed getters and setters make manipulating the various Web Audio properties very clean while also allowing other aspects of the app to monitor those values for changes (ie the position of the volume knob, changing the volume speaker icon based on how loud the sound is, etc)
