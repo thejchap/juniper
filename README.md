@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+<img width="100%" alt="screenshot 2017-03-27 11 18 54" src="https://cloud.githubusercontent.com/assets/2475286/24365977/b617a43e-12e5-11e7-8411-9efeeeea5b95.png">
+
+>>>>>>> master
 ### Overview
 
 This is a single-page Javascript app that makes heavy use of the Web Audio API to allow visitors
@@ -200,9 +205,15 @@ Make use of the many generators for code, try `ember help generate` for more det
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+__All songs and audio samples__
+
+Copyright (c) 2016 Spartan Records
+
+__Code__
+
 MIT License
 
-Copyright (c) 2017 Justin Chapman 
+Copyright (c) 2016 Justin Chapman 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
