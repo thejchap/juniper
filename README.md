@@ -128,6 +128,7 @@ Each string is then converted to base 10 and parsed out according to the followi
       - Min: 60, max: 19000
 
 - In this example:
+
 ```
          Sound 9
          |
