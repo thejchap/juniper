@@ -1,7 +1,3 @@
-# Juniper (Square Peg Round Hole LP2) Remix App
-
-## App
-
 <img width="100%" alt="screenshot 2017-03-27 11 18 54" src="https://cloud.githubusercontent.com/assets/2475286/24365977/b617a43e-12e5-11e7-8411-9efeeeea5b95.png">
 
 ### Overview
