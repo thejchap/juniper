@@ -2,6 +2,8 @@
 
 ### Overview
 
+<a href="http://juniper.squarepegroundhole.me" target='_blank'>http://juniper.squarepegroundhole.me</a>
+
 This is an single-page Javascript app that makes heavy use of the Web Audio API to allow visitors
 to create their own remixes of songs from Square Peg Round Hole's album Juniper. The app is built on the Ember javascript framework.
 
