@@ -71,7 +71,7 @@ their remixes without the app requiring any back-end database or persistent stor
 The final, encoded mix looks like this in the URL:
 
 ```
-http://squarepegroundhole.me/#/?i=7-2_9-8_29&s=798bcd8a74
+http://juniper.squarepegroundhole.me/#/?i=7-2_9-8_29&s=798bcd8a74
 ```
 
 ##### i parameter
