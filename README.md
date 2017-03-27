@@ -75,7 +75,7 @@ The `i` parameter is an underscore-delimited series of pairs containing the IDs 
 the length of that bulb's base-16 encoded 'state' string (these are all concatenated together and make up the `s` parameter.
 This allows us to store information about each bulb's volume/distortion/etc and keep the query string as short as possible.
 
-In this example: `5-3_7-3_9-6_23`
+In this example: `7-2_9-8_29`
 
 - Sound 7 is on and has a 2 character state string
 - Sound 9 is on and has an 8 character state string
